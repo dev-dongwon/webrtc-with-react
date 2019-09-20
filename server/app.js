@@ -3,8 +3,9 @@ require("dotenv").config();
 // import modules
 const express = require("express"),
       morgan  = require("morgan"),
-      helmet = require("helmet");
+      helmet  = require("helmet");
 
+// server application
 const app = express();
 
 // middlewares
