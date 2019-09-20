@@ -1,0 +1,32 @@
+{
+  "name": "webrtc-with-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/bin/server.js",
+    "server": "nodemon server/bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-dongwon/webrtc-with-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dev-dongwon/webrtc-with-react/issues"
+  },
+  "homepage": "https://github.com/dev-dongwon/webrtc-with-react#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "sequelize": "^5.19.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "nodemon": "^1.19.2"
+  }
+}
