@@ -8,14 +8,15 @@ const express = require("express"),
 // server application
 const app = express();
 
+// routes
+const apiRouter = require('./routes/api');
+
 // middlewares
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
 // routes
-app.use("/", (req, res) => {
-  res.json({ hello : "node.js"});
-});
+app.use("/api", apiRouter);
 
 module.exports = app;
