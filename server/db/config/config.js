@@ -1,6 +1,8 @@
 require("dotenv").config({
-  path : "../.env"
+  path : "../../.env"
 });
+
+console.log(process.env.MYSQL_DEV_DIALECT)
 
 const development = {
   username: process.env.MYSQL_DEV_USERNAME,
