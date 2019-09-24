@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/bin/server.js",
     "server": "nodemon server/bin/server.js",
-    "test" : "jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "eslint": "^6.4.0",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "sequelize-test-helpers": "^1.1.2"
   }
 }
