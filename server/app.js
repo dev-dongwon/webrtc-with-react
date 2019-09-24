@@ -8,6 +8,10 @@ const express = require("express"),
 // server application
 const app = express();
 
+// sequelize
+const sequelize = require('./db/models').sequelize;
+sequelize.sync();
+
 // routes
 const apiRouter = require('./routes/api');
 
