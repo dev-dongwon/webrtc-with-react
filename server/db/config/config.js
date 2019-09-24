@@ -1,8 +1,6 @@
 require("dotenv").config({
-  path : "../../.env"
+  path : "./.env"
 });
-
-console.log(process.env.MYSQL_DEV_DIALECT)
 
 const development = {
   username: process.env.MYSQL_DEV_USERNAME,
@@ -31,4 +29,4 @@ const test = {
   port: process.env.MYSQL_TEST_PORT
 };
 
-module.exports = { development };
+module.exports = { development, production, test };
