@@ -1,8 +1,4 @@
-const bcrypt              = require('bcryptjs'),
-      userModel           = require('../db/models/user'),
-      { checkValidation } = require('../middlewares/validator'),
-      { User }            = require('../db/models'),
-      { readUserData }        = require('../db/instructions/user');
+const { readUserData } = require('../db/instructions/user');
 
 const controller = {
   // 유저 가져오기
