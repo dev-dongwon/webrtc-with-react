@@ -9,25 +9,33 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        unique: true,
+        allowNull: false,
+        type: Sequelize.STRING(32)
       },
       password: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING(256)
       },
       email: {
-        type: Sequelize.STRING
+        unique: true,
+        allowNull: false,
+        type: Sequelize.STRING(256)
       },
       google_auth: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(256)
       },
       position: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(512)
       },
       photo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(512)
       },
       introduction: {
         type: Sequelize.TEXT
+      },
+      permission: {
+        type: Sequelize.STRING(1)
       },
       createdAt: {
         allowNull: false,
