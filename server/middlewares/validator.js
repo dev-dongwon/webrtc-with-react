@@ -7,7 +7,11 @@ const validator = {
       .isEmpty(),
     check("email", "이메일 형식이 맞지 않습니다").isEmail(),
     check("password", "비밀번호는 6자 이상이어야 합니다").isLength({ min: 6 })
-  ]
+  ],
+  auth: [
+    check('email', '이메일 형식이 맞지 않습니다').isEmail(),
+    check('password', '비밀번호를 입력해주세요').exists()
+  ],
 };
 
 const checkValidation = (req, res, next) => {
