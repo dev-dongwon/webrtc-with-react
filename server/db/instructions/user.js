@@ -18,6 +18,11 @@ const instructions = {
       flag = true;
     }
     return flag;
+  },
+
+  getUserByEmail: async email => {
+    const user = await User.findOne({ where: { email } });
+    return user;
   }
 };
 
