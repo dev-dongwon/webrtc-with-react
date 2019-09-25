@@ -1,5 +1,6 @@
-const { readUserData, createUser, isDupleUser } = require("../db/instructions/user"); 
-const encrpyPassword = require('../utils/encrypt');
+const { readUserData, createUser, isDupleUser } = require("../db/instructions/user"),
+      encryptPassword                           = require('../utils/encrypt'),
+      generateJwtToken                          = require('../utils/generate-jwt');
 
 const controller = {
   // 유저 가져오기
@@ -22,10 +23,12 @@ const controller = {
         return res.status(400).json({ msg : 'User already exist' });
       }
 
-      password = await encrpyPassword(password);
+      password = await encryptPassword(password);
       const user = await createUser({ name, email, password });
 
-      return res.json({ user });
+      const token = await generateJwtToken(user.id);
+      return res.json({ token });
+
     } catch (error) {
       next(error);
     }
