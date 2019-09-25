@@ -35,7 +35,8 @@ module.exports = {
         type: Sequelize.TEXT
       },
       permission: {
-        type: Sequelize.STRING(1)
+        type: Sequelize.STRING(1),
+        defaultValue: "Y"
       },
       createdAt: {
         allowNull: false,
