@@ -1,13 +1,21 @@
-const express        = require('express'),
-      router         = express.Router(),
-      authController = require('../../controller/auth'),
-      { validator, checkValidation }  = require('../../middlewares/validator');
+const express                         = require('express'),
+      router                          = express.Router(),
+      authController                  = require('../../controller/auth'),
+      userController                  = require('../../controller/user'),
+      { validator, checkValidation }  = require('../../middlewares/validator'),
+      authUser                        = require('../../middlewares/auth-user');
 
 /*
   @route   GET api/auth
   @desc    Get logged in user
   @access  Private
 */
-router.get('/', validator.auth, checkValidation, authController.login);
+router.get('/', authUser, userController.getUser);
 
+/*
+  @route   POST api/auth
+  @desc    Auth user & Get token
+  @access  Public
+*/
+router.post('/', validator.auth, checkValidation, authController.login);
 module.exports = router;

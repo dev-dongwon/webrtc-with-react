@@ -2,7 +2,10 @@ const { User } = require("../models");
 
 const instructions = {
   readUserData: async id => {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({
+      where: { id },
+      attributes: { exclude: ["password"] }
+    });
     return user;
   },
 
@@ -21,7 +24,10 @@ const instructions = {
   },
 
   getUserByEmail: async email => {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      attributes: { exclude: ["password"] }
+    });
     return user;
   }
 };
