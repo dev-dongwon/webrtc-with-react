@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT
       },
       permission: {
-        type: DataTypes.STRING(1)
+        type: DataTypes.STRING(1),
+        defaultValue: "Y"
       },
       createdAt: {
         allowNull: false,
