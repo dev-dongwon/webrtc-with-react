@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server/bin/server.js",
     "server": "nodemon server/bin/server.js",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest"
   },
   "repository": {
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "concurrently": "^4.1.2",
     "eslint": "^6.4.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.2",
