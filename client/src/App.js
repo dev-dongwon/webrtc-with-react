@@ -1,13 +1,19 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
+import { BrowserRouter as Router } from "react-router-dom";
+import SideMenu from "./components/layout/menu/SideMenu";
+import { Grid, CssBaseline } from "@material-ui/core";
+import ContentArea from "./components/layout/content/ContentArea";
 import "./App.css";
-import 'semantic-ui-css/semantic.min.css'
 
 const App = () => {
   return (
-    <div className="App">
-      <Button primary>this is primary</Button>
-    </div>
+    <Router>
+      <Grid container component="main">
+        <CssBaseline />
+        <SideMenu />
+        <ContentArea />
+      </Grid>
+    </Router>
   );
 };
 
