@@ -1,14 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Grid,
   Container,
-  Divider,
+  Divider
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(25),
     textDecoration: "none",
-    backgroundColor: "transparent",
+    backgroundColor: "white"
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -41,8 +37,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+export default function Signup() {
   const classes = useStyles();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const { name, email, password } = user;
+
+  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  const onSubmit = e => {
+    e.preventDefault();
+    console.log("register submit");
+  };
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
@@ -54,12 +63,25 @@ export default function SignIn() {
           color="secondary"
           className={classes.Button}
         >
-          Google Login
+          Google ID로 회원가입
         </Button>
       </div>
       <Divider className={classes.divider} />
       <div className={classes.paper}>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={onSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            value={name}
+            onChange={onChange}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -69,7 +91,8 @@ export default function SignIn() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
+            value={email}
+            onChange={onChange}
           />
           <TextField
             variant="outlined"
@@ -81,42 +104,20 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            value={password}
+            onChange={onChange}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            value="register"
             className={classes.Button}
           >
-            Sign In
+            Sign Up
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/">Forgot password?</Link>
-            </Grid>
-          </Grid>
         </form>
-      </div>
-      <Divider className={classes.divider} />
-      <div className={classes.subtitle}>
-        <b>아직 아이디가 없으신가요?</b>
-      </div>
-      <div>
-        <Link href="/signup">
-          <Button
-            fullWidth
-            variant="outlined"
-            className={classes.Button}
-            color="white"
-          >
-            회원가입
-          </Button>
-        </Link>
       </div>
     </Container>
   );
