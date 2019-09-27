@@ -6,8 +6,7 @@ const controller = {
   // 유저 가져오기
   getUser: async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const user = await readUserData(id);
+      const user = await readUserData(req.user.id);
       return res.json({ user });
     } catch (error) {
       next(error);
@@ -20,7 +19,7 @@ const controller = {
       
       // 유저 중복 체크
       if (await isDupleUser(email)) {
-        return res.status(400).json({ msg : 'User already exist' });
+        return res.status(400).json({ msg : '동일한 이메일이나 이름의 유저가 존재합니다' });
       }
 
       password = await encryptPassword(password);
