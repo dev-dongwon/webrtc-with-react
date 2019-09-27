@@ -2,7 +2,6 @@ import React from "react";
 import {
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Badge,
   makeStyles,
