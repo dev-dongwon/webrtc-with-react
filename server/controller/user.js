@@ -6,7 +6,7 @@ const controller = {
   // 유저 가져오기
   getUser: async (req, res, next) => {
     try {
-      const user = await readUserData(req.user.id);
+      const user = await readUserData(req.params.id || req.user.id);
       return res.json({ user });
     } catch (error) {
       next(error);
