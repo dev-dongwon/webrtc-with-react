@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   CssBaseline,
@@ -45,6 +45,14 @@ export default function Signup() {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  const { register, error, clearErrors } = authContext;
+
+  useEffect(() => {
+    if (error) {
+      setAlert(error);
+    }
+    clearErrors();
+  }, [error]);
 
   const [user, setUser] = useState({
     name: "",
@@ -56,13 +64,20 @@ export default function Signup() {
   const { name, email, password, checkPassword } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
-  
+
   const onSubmit = e => {
     e.preventDefault();
-    if (name === "" || email === "" || password === "" || checkPassword === "") {
+    if (
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      checkPassword === ""
+    ) {
       setAlert("입력되지 않은 정보가 있습니다");
     } else if (password !== checkPassword) {
-      setAlert("비밀번호가 일치하지 않습니다")
+      setAlert("비밀번호가 일치하지 않습니다");
+    } else {
+      register({ name, email, password });
     }
   };
 
