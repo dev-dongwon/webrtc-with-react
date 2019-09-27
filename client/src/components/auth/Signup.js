@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   CssBaseline,
@@ -7,6 +7,8 @@ import {
   Divider
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AuthContext from "../../context/auth/authContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -39,6 +41,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function Signup() {
   const classes = useStyles();
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
+
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -49,9 +56,14 @@ export default function Signup() {
   const { name, email, password, checkPassword } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+  
   const onSubmit = e => {
     e.preventDefault();
-    console.log("register submit");
+    if (name === "" || email === "" || password === "" || checkPassword === "") {
+      setAlert("입력되지 않은 정보가 있습니다");
+    } else if (password !== checkPassword) {
+      setAlert("비밀번호가 일치하지 않습니다")
+    }
   };
 
   return (
