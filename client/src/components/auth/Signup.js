@@ -42,10 +42,11 @@ export default function Signup() {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    checkPassword: ""
   });
 
-  const { name, email, password } = user;
+  const { name, email, password, checkPassword } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
   const onSubmit = e => {
@@ -105,6 +106,18 @@ export default function Signup() {
             id="password"
             autoComplete="current-password"
             value={password}
+            onChange={onChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="checkPassword"
+            label="check your password"
+            type="password"
+            id="checkPassword"
+            value={checkPassword}
             onChange={onChange}
           />
           <Button

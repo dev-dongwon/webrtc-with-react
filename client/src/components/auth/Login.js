@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Grid,
   Container,
   Divider
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/auth/authContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -43,6 +43,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { setAlert } = alertContext;
 
   const [user, setUser] = useState({
     email: "",
@@ -55,7 +59,9 @@ export default function SignIn() {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log("Login Submit");
+    if (email === "" || password === "") {
+      setAlert('입력되지 않은 정보가 있습니다');
+    }
   };
 
   return (
@@ -85,6 +91,7 @@ export default function SignIn() {
             autoComplete="email"
             value={email}
             autoFocus
+            onChange={onChange}
           />
           <TextField
             variant="outlined"
@@ -97,10 +104,7 @@ export default function SignIn() {
             id="password"
             value={password}
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            onChange={onChange}
           />
           <Button
             type="submit"
@@ -109,12 +113,13 @@ export default function SignIn() {
             color="primary"
             value="login"
             className={classes.Button}
+            onClick={onSubmit}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/">Forgot password?</Link>
+              <Link to="/">Forgot password?</Link>
             </Grid>
           </Grid>
         </form>
