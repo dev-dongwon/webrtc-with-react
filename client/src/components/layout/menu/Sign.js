@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center"
   },
   top: {
-    marginTop: "60vh"
+    marginTop: "55vh"
   }
 }));
 
