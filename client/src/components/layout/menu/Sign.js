@@ -8,8 +8,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     width: "80%",
     borderRadius: "12px",
-    backgroundColor: 'white',
-    color : "black"
+    backgroundColor: "white",
+    color: "black"
   },
   whiteButton: {
     margin: theme.spacing(1),
@@ -23,13 +23,16 @@ const useStyles = makeStyles(theme => ({
   },
   profile: {
     color: "white",
-    textAlign: "center",
+    textAlign: "center"
   },
   wrapper: {
     textAlign: "center"
   },
   top: {
-    marginTop: "55vh"
+    position: "absoloute"
+  },
+  divider: {
+    marginBottom: "5%"
   }
 }));
 
@@ -40,9 +43,14 @@ const Sign = () => {
 
   const guestComponent = (
     <div className={classes.top}>
+      <Divider variant="middle" className={classes.divider}></Divider>
       <div className={classes.wrapper}>
         <Link to="/signup">
-          <Button variant="contained" color="inherit" className={classes.button}>
+          <Button
+            variant="contained"
+            color="inherit"
+            className={classes.button}
+          >
             SIGN UP
           </Button>
         </Link>
@@ -59,8 +67,8 @@ const Sign = () => {
 
   const loginUserComponent = user => (
     <div className={classes.top}>
+      <Divider variant="middle" className={classes.divider}></Divider>
       <div className={classes.profile}>{user.user.name}</div>
-      <Divider></Divider>
       <div className={classes.wrapper}>
         <Button
           variant="outlined"
