@@ -4,6 +4,7 @@ import Signup from "../../auth/Signup";
 import Login from "../../auth/Login";
 import Alert from "../../layout/alert/Alert";
 import Search from "../../search/Search";
+import Home from "../../home/Home";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const ContentArea = () => {
@@ -13,6 +14,7 @@ const ContentArea = () => {
       <Grid item xs={8} sm={8} md={10} className="content">
         <Alert />
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/search" component={Search} />
