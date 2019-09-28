@@ -8,7 +8,14 @@ import {
   Typography,
   Box
 } from "@material-ui/core";
-import { Mail, Home, MusicNote, Search } from "@material-ui/icons";
+import {
+  Mail,
+  Home,
+  MusicNote,
+  Search,
+  LibraryMusic,
+  Group
+} from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -53,6 +60,16 @@ export default function SimpleList() {
         <ListItem button className={classes.item}>
           <Home />
           <ListItemText primary="Home" className={classes.text} />
+        </ListItem>
+        <ListItem button className={classes.item}>
+          <LibraryMusic />
+          <ListItemText primary="Play Room" className={classes.text} />
+        </ListItem>
+        <ListItem button className={classes.item}>
+          <Badge className={classes.margin} badgeContent={4} color="primary">
+            <Group />
+          </Badge>
+          <ListItemText primary="Friends" className={classes.text} />
         </ListItem>
         <Link to="/login">
           <ListItem button className={classes.item}>
