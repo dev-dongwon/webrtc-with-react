@@ -1,19 +1,27 @@
 import React, { useContext, useState, Fragment } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import AlertContext from "../../../context/alert/alertContext";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    marginLeft: "8%"
+  }
+}));
 
 const Alert = () => {
   const alertContext = useContext(AlertContext);
+  const classes = useStyles();
 
   return (
     alertContext.alerts.length > 0 &&
     alertContext.alerts.map(alert => (
       <div key={alert.id}>
         <Snackbar
+          className={classes.root}
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right"
+            vertical: "top",
+            horizontal: "center"
           }}
           open={true}
           message={alert.msg}
