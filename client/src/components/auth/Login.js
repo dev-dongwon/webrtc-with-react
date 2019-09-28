@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   CssBaseline,
@@ -41,12 +41,26 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+
+    if (error) {
+      setAlert(error);
+    }
+
+    clearErrors();
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     email: "",
@@ -60,8 +74,10 @@ export default function SignIn() {
   const onSubmit = e => {
     e.preventDefault();
     if (email === "" || password === "") {
-      setAlert('입력되지 않은 정보가 있습니다');
+      setAlert("입력되지 않은 정보가 있습니다");
+      return;
     }
+    login({ email, password });
   };
 
   return (
