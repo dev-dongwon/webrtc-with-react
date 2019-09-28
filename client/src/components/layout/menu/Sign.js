@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles, Button, Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import AuthContext from "../../../context/auth/authContext";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -18,16 +19,25 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: "none"
   },
+  profile: {
+    color: "white",
+    textAlign: "center",
+  },
   wrapper: {
     textAlign: "center"
+  },
+  top: {
+    marginTop: "60vh"
   }
 }));
 
 const Sign = () => {
   const classes = useStyles();
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated, logout, user } = authContext;
 
-  return (
-    <Fragment>
+  const guestComponent = (
+    <div className={classes.top}>
       <div className={classes.wrapper}>
         <Link to="/signup">
           <Button variant="contained" className={classes.button}>
@@ -42,8 +52,30 @@ const Sign = () => {
           </Button>
         </Link>
       </div>
-    </Fragment>
+    </div>
   );
+
+  const loginUserComponent = user => (
+    <div className={classes.top}>
+      <div className={classes.profile}>{user.user.name}</div>
+      <Divider></Divider>
+      <div className={classes.wrapper}>
+        <Button
+          variant="outlined"
+          className={classes.whiteButton}
+          onClick={logout}
+        >
+          LOG OUT
+        </Button>
+      </div>
+    </div>
+  );
+
+  if (isAuthenticated && user) {
+    return loginUserComponent(user);
+  } else {
+    return guestComponent;
+  }
 };
 
 export default Sign;
