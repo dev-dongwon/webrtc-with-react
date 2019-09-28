@@ -7,7 +7,9 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     width: "80%",
-    borderRadius: "12px"
+    borderRadius: "12px",
+    backgroundColor: 'white',
+    color : "black"
   },
   whiteButton: {
     margin: theme.spacing(1),
@@ -40,7 +42,7 @@ const Sign = () => {
     <div className={classes.top}>
       <div className={classes.wrapper}>
         <Link to="/signup">
-          <Button variant="contained" className={classes.button}>
+          <Button variant="contained" color="inherit" className={classes.button}>
             SIGN UP
           </Button>
         </Link>

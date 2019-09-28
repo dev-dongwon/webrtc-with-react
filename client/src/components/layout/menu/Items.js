@@ -5,7 +5,8 @@ import {
   ListItemText,
   Badge,
   makeStyles,
-  Typography
+  Typography,
+  Box
 } from "@material-ui/core";
 import { Mail, Home, MusicNote } from "@material-ui/icons";
 
@@ -30,8 +31,12 @@ export default function SimpleList() {
 
   return (
     <div className={classes.root}>
-      <MusicNote />
-      <Typography variant="h6">Volroom Up</Typography>
+
+      <Typography variant="h6" letterSpacing={2}>
+        <Box letterSpacing={6} m={1}>
+          <span><MusicNote /></span>  Volroom Up
+        </Box>
+      </Typography>
       <List component="nav" aria-label="main mailbox folders">
         <ListItem button className={classes.item}>
           <Home />
