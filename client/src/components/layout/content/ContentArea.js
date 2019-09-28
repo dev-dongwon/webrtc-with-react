@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import Signup from "../../auth/Signup";
 import Login from "../../auth/Login";
 import Alert from "../../layout/alert/Alert";
+import Search from "../../search/Search";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const ContentArea = () => {
@@ -14,6 +15,7 @@ const ContentArea = () => {
         <Switch>
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/search" component={Search} />
         </Switch>
       </Grid>
     </Fragment>

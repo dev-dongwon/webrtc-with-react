@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   List,
   ListItem,
@@ -8,7 +8,8 @@ import {
   Typography,
   Box
 } from "@material-ui/core";
-import { Mail, Home, MusicNote } from "@material-ui/icons";
+import { Mail, Home, MusicNote, Search } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +24,12 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: "5%"
   },
   item: {
-    paddingLeft: "10%"
+    paddingLeft: "10%",
+    paddingTop: "5%",
+    paddingBottom: "5%"
+  },
+  list: {
+    marginTop: "10%"
   }
 }));
 export default function SimpleList() {
@@ -31,23 +37,37 @@ export default function SimpleList() {
 
   return (
     <div className={classes.root}>
-
-      <Typography variant="h6" letterSpacing={2}>
+      <Typography variant="h5" letterSpacing={2}>
         <Box letterSpacing={6} m={1}>
-          <span><MusicNote /></span>  Volroom Up
+          <span>
+            <MusicNote />
+          </span>{" "}
+          <b>Volroom Up</b>
         </Box>
       </Typography>
-      <List component="nav" aria-label="main mailbox folders">
+      <List
+        component="nav"
+        aria-label="main mailbox folders"
+        className={classes.list}
+      >
         <ListItem button className={classes.item}>
           <Home />
           <ListItemText primary="Home" className={classes.text} />
         </ListItem>
-        <ListItem button className={classes.item}>
-          <Badge className={classes.margin} badgeContent={4} color="primary">
-            <Mail />
-          </Badge>
-          <ListItemText primary="Message" className={classes.text} />
-        </ListItem>
+        <Link to="/login">
+          <ListItem button className={classes.item}>
+            <Badge className={classes.margin} badgeContent={4} color="primary">
+              <Mail />
+            </Badge>
+            <ListItemText primary="Message" className={classes.text} />
+          </ListItem>
+        </Link>
+        <Link to="/search">
+          <ListItem button className={classes.item}>
+            <Search />
+            <ListItemText primary="Search" className={classes.text} />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
