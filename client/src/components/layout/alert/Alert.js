@@ -1,7 +1,7 @@
 import React, { useContext, useState, Fragment } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 import AlertContext from "../../../context/alert/alertContext";
-import { Grid, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
