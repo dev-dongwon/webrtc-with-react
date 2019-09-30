@@ -61,24 +61,24 @@ export default function SimpleList() {
           <Home />
           <ListItemText primary="Home" className={classes.text} />
         </ListItem>
-        <ListItem button className={classes.item}>
-          <LibraryMusic />
-          <ListItemText primary="Play Room" className={classes.text} />
-        </ListItem>
+        <Link to="/lobby">
+          <ListItem button className={classes.item}>
+            <LibraryMusic />
+            <ListItemText primary="Play Room" className={classes.text} />
+          </ListItem>
+        </Link>
         <ListItem button className={classes.item}>
           <Badge className={classes.margin} badgeContent={4} color="primary">
             <Group />
           </Badge>
           <ListItemText primary="Friends" className={classes.text} />
         </ListItem>
-        <Link to="/login">
-          <ListItem button className={classes.item}>
-            <Badge className={classes.margin} badgeContent={4} color="primary">
-              <Mail />
-            </Badge>
-            <ListItemText primary="Message" className={classes.text} />
-          </ListItem>
-        </Link>
+        <ListItem button className={classes.item}>
+          <Badge className={classes.margin} badgeContent={4} color="primary">
+            <Mail />
+          </Badge>
+          <ListItemText primary="Message" className={classes.text} />
+        </ListItem>
         <Link to="/search">
           <ListItem button className={classes.item}>
             <Search />
