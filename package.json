@@ -9,7 +9,8 @@
     "client": "npm start --prefix client",
     "clientinstall": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "jest"
+    "test": "exit",
+    "build": "babel server.js --out-file server.compiled.js"
   },
   "repository": {
     "type": "git",
