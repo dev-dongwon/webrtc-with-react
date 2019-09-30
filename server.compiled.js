@@ -1,11 +1,14 @@
-const http = require('http');
-const app = require('./server/app');
-const express = require('express');
-const path = require('path');
+"use strict";
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+var http = require('http');
 
-const PORT = process.env.PORT || 5000;
+var app = require('./server/app');
 
-const server = http.createServer(app);
+var express = require('express');
+
+var path = require('path');
+
+app.use(express["static"](path.join(__dirname, 'client', 'build')));
+var PORT = process.env.PORT || 5000;
+var server = http.createServer(app);
 server.listen(PORT);
