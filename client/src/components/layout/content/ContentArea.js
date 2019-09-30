@@ -5,6 +5,8 @@ import Login from "../../auth/Login";
 import Alert from "../../layout/alert/Alert";
 import Search from "../../search/Search";
 import Home from "../../home/Home";
+import Lobby from "../../lobby/Lobby";
+import Room from "../../room/Room";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const ContentArea = () => {
@@ -18,6 +20,8 @@ const ContentArea = () => {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/search" component={Search} />
+          <Route exact path="/lobby" component={Lobby} />
+          <Route exact path="/rooms/:roomId" component={Room} />
         </Switch>
       </Grid>
     </Fragment>
