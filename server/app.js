@@ -1,6 +1,4 @@
-require("dotenv").config({
-  path : "./.env"
-});
+require("dotenv").config();
 
 // import modules
 const express = require("express"),
@@ -13,6 +11,8 @@ const app = express();
 // sequelize
 const sequelize = require('./db/models').sequelize;
 sequelize.sync();
+
+console.log(sequelize.config)
 
 // routes
 const apiRouter = require('./routes/api');

@@ -1,7 +1,3 @@
-require("dotenv").config({
-  path : "./../../../.env"
-});
-
 const development = {
   username: process.env.MYSQL_DEV_USERNAME,
   password: process.env.MYSQL_DEV_PASSWORD,
