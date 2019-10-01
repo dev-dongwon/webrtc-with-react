@@ -7,7 +7,7 @@ const development = {
   password: process.env.MYSQL_DEV_PASSWORD,
   database: process.env.MYSQL_DEV_DATABASE,
   host: process.env.MYSQL_DEV_HOST,
-  dialect: process.env.MYSQL_DEV_DIALECT,
+  dialect: "mysql",
   port: process.env.MYSQL_DEV_PORT
 };
 
