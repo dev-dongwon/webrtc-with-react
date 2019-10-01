@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "exit",
-    "build": "babel server.js --out-file server.compiled.js"
+    "test": "exit"
   },
   "repository": {
     "type": "git",
