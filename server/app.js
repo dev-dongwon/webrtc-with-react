@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+// sequelize
+const sequelize = require('./db/models').sequelize;
+sequelize.sync();
+
 // import modules
 const express = require("express"),
       morgan  = require("morgan"),
@@ -8,19 +12,13 @@ const express = require("express"),
 // server application
 const app = express();
 
-// sequelize
-const sequelize = require('./db/models').sequelize;
-sequelize.sync();
-
-console.log(sequelize.config)
-
-// routes
-const apiRouter = require('./routes/api');
-
 // middlewares
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
+
+// routes
+const apiRouter = require('./routes/api');
 
 // routes
 app.use("/api", apiRouter);
