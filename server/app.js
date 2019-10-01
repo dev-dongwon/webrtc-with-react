@@ -14,10 +14,10 @@ const express = require("express"),
 const app = express();
 
 // middlewares
+app.use(express.static(path.join(__dirname, "./../client", "build")));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "client", "build")));
 
 // routes
 const apiRouter = require("./routes/api");
