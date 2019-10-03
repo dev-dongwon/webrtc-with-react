@@ -15,7 +15,7 @@ class Room {
   }
 
   clearHistory() {
-    this.history = [];
+    this.chatList = [];
   }
 }
 
