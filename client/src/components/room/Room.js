@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import ChatContext from "../../context/chat/chatContext";
+import AuthContext from "../../context/auth/authContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { Player } from "video-react";
 import "../../../node_modules/video-react/dist/video-react.css";
 import {
-  Divider,
   Paper,
   Chip,
-  Typography,
   Button,
   TextField
 } from "@material-ui/core";
-import uuid from "uuid";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   },
   chatBox: {
     height: "85%",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    overflow: "auto"
   },
   messageBox: {
     height: "10%",
@@ -59,7 +58,22 @@ const useStyles = makeStyles(theme => ({
 
 const Room = ({ match }) => {
   const classes = useStyles();
+  const chatContext = useContext(ChatContext);
+  const authContext = useContext(AuthContext);
+
+  let { chatRoomInfo, receiveMessage, sendChatAction } = chatContext;
+  const { user } = authContext;
+  const { allChats, members } = chatRoomInfo;
+
   const [textValue, changeTextValue] = useState("");
+
+  const onChange = e => changeTextValue(e.target.value);
+
+  const onSubmit = () => {
+    receiveMessage({ from: user.user.name, msg: textValue });
+    sendChatAction({ from: user.user.name, msg: textValue });
+    changeTextValue("");
+  };
 
   return (
     <div>
@@ -76,10 +90,7 @@ const Room = ({ match }) => {
           </div>
           <div className={classes.chatWindow}>
             <div className={classes.chatBox}>
-              {[
-                { from: "user", msg: "hello" },
-                { from: "user", msg: "hello" }
-              ].map((chat, i) => {
+              {allChats.map((chat, i) => {
                 return (
                   <div
                     className={classes.flex}
@@ -99,11 +110,11 @@ const Room = ({ match }) => {
                   className={classes.textBox}
                   placeholder="Send a chat"
                   value={textValue}
-                  onChange={e => changeTextValue(e.target.value)}
+                  onChange={onChange}
                 />
               </div>
               <div className={classes.button}>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={onSubmit}>
                   send
                 </Button>
               </div>

@@ -3,7 +3,7 @@ import AuthContext from "../../context/auth/authContext";
 
 const Home = () => {
   const authContext = useContext(AuthContext);
-  const { loadUser, isAuthenticated, user, token } = authContext;
+  const { loadUser, user, token } = authContext;
 
   useEffect(() => {
     if (token && !user) {
