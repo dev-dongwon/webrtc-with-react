@@ -1,9 +1,9 @@
 class Namespace {
-  constructor(id, title, img, endPoint) {
+  constructor(id, type, endPoint) {
     this.id = id;
-    this.title = title;
-    this.img = img;
+    this.type = type;
     this.endPoint = endPoint;
+    this.rooms = [];
   }
 
   addRoom(roomObj) {
