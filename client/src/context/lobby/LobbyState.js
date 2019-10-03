@@ -6,10 +6,10 @@ import { MAKE_ROOM, JOIN_ROOM } from "../types";
 import axios from "axios";
 
 const LobbyState = props => {
-  const initialState = { rooms: {} };
+  const initialState = { rooms: {}, roomInfo : {} };
 
   const [state, dispatch] = useReducer(LobbyReducer, initialState);
-  const { rooms, roomInfo } = LobbyState;
+  const { rooms, roomInfo } = state;
 
   // load rooms
   const loadRooms = async () => {};
