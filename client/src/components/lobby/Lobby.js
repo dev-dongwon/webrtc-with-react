@@ -1,58 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Divider, Modal, TextField, MenuItem } from "@material-ui/core";
+import LobbyContext from "../../context/lobby/lobbyContext";
+import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
+import Room from "../../chatclasses/Room";
 import uuid from "uuid";
 
-const lang = [
+const privateType = [
   {
-    value: "java",
-    label: "java"
-  },
-  {
-    value: "javascript",
-    label: "javascript"
-  },
-  {
-    value: "c",
-    label: "c"
-  },
-  {
-    value: "cplus",
-    label: "c++"
-  }
-];
-
-const secret = [
-  {
-    value: "private",
+    value: true,
     label: "private"
   },
   {
-    value: "public",
+    value: false,
     label: "public"
-  }
-];
-
-const problemTypes = [
-  {
-    value: "settings",
-    label: "환경설정"
-  }
-];
-
-const problems = [
-  {
-    value: "architecture",
-    label: "코드 구조 및 아키텍처"
-  },
-  {
-    value: "code",
-    label: "구현 문제"
-  },
-  {
-    value: "algorithm",
-    label: "알고리즘"
   }
 ];
 
@@ -84,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     width: "60%",
-    height: "40%",
+    height: "auto",
     marginLeft: "15%",
     borderRadius: "15px"
   },
@@ -101,25 +63,64 @@ const useStyles = makeStyles(theme => ({
 const Lobby = () => {
   const classes = useStyles();
 
+  const lobbyContext = useContext(LobbyContext);
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const { user } = authContext;
+  const { makeRoom, rooms, roomInfo } = lobbyContext;
+  const { setAlert } = alertContext;
+
   const [values, setValues] = React.useState({
-    lang: null,
-    secret: null,
+    privateFlag: false,
+    password: "",
     open: false,
-    roomId: null
+    roomName: ""
   });
 
-  const { open } = values;
+  const { open, privateFlag, password, roomName } = values;
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+  const handleChange = e => {
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleOpen = () => {
+    if (!user) {
+      setAlert("로그인이 필요한 서비스입니다");
+      return;
+    }
     setValues({ ...values, open: true });
   };
 
   const handleClose = () => {
     setValues({ ...values, open: false });
+  };
+
+  const onSubmit = async e => {
+    e.preventDefault();
+
+    if (roomName === "") {
+      setAlert("방제를 입력해주세요");
+      return;
+    }
+
+    if (privateFlag && password === "") {
+      setAlert("비밀번호를 입력해주세요");
+      return;
+    }
+
+    makeRoom({
+      roomId: uuid.v4(),
+      hostId: user.user.name,
+      roomName,
+      privateFlag,
+      password
+    });
+
+    const { roomId, hostId, roomName, privateFlag, password } = roomInfo;
+    const room = new Room(roomId, hostId, roomName, privateFlag, password);
+    
+    console.log(room);
   };
 
   return (
@@ -143,69 +144,65 @@ const Lobby = () => {
           <form className={classes.container} noValidate autoComplete="off">
             <TextField
               id="room"
-              label="room"
+              label="방제"
+              name="roomName"
               className={classes.textField}
               placeholder="방제를 입력해주세요"
               variant="outlined"
+              value={roomName}
+              onChange={handleChange}
               fullWidth
               autoFocus
             />
             <TextField
-              id="lang"
+              id="privateFlag"
+              fullWidth
               select
-              label="language"
+              label="공개여부"
+              name="privateFlag"
               className={classes.textField}
-              value={values.lang}
-              onChange={handleChange("lang")}
+              value={privateFlag}
+              onChange={handleChange}
               SelectProps={{
                 MenuProps: {
                   className: classes.menu
                 }
               }}
-              helperText="언어를 선택해주세요"
+              placeholder="공개 여부를 선택해주세요"
               margin="normal"
               variant="outlined"
             >
-              {lang.map(option => (
+              {privateType.map(option => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-              id="secret"
-              select
-              label="secret"
-              className={classes.textField}
-              value={values.secret}
-              onChange={handleChange("secret")}
-              SelectProps={{
-                MenuProps: {
-                  className: classes.menu
-                }
-              }}
-              helperText="공개 여부를 선택해주세요"
-              margin="normal"
-              variant="outlined"
-            >
-              {secret.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
+            {privateFlag === true ? (
+              <TextField
+                id="password"
+                label="비밀번호"
+                type="password"
+                name="password"
+                fullWidth
+                value={password}
+                onChange={handleChange}
+                className={classes.textField}
+                placeholder="비밀번호를 입력해주세요"
+                variant="outlined"
+              />
+            ) : null}
           </form>
           <div className={classes.buttonArea}>
             <span>
-              <Link to={`/rooms/${uuid.v4()}`}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className={classes.button}
-                >
-                  create
-                </Button>
-              </Link>
+              <Button
+                variant="outlined"
+                color="primary"
+                className={classes.button}
+                onClick={onSubmit}
+              >
+                create
+              </Button>
             </span>
             <span>
               <Button

@@ -5,7 +5,7 @@ import { Grid, CssBaseline } from "@material-ui/core";
 import ContentArea from "./components/layout/content/ContentArea";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
-import ChatState from "./context/chat/ChatState";
+import LobbyState from "./context/lobby/LobbyState";
 import "./App.css";
 
 const App = () => {
@@ -16,9 +16,9 @@ const App = () => {
           <Grid container>
             <CssBaseline />
             <SideMenu />
-            <ChatState>
+            <LobbyState>
               <ContentArea />
-            </ChatState>
+            </LobbyState>
           </Grid>
         </Router>
       </AuthState>
