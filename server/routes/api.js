@@ -1,9 +1,11 @@
 const express    = require('express'),
       router     = express.Router(),
       userRouter = require('./api/user'),
-      authRouter = require('./api/auth');
+      authRouter = require('./api/auth'),
+      roomRouter = require('./api/room');
 
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
+router.use('/room', roomRouter);
 
 module.exports = router;
