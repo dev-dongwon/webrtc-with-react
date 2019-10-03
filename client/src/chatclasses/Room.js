@@ -1,14 +1,17 @@
 class Room {
-  constructor(roomId, roomTitle, namespace, privateRoom = false) {
+  constructor(roomId, hostId, roomName, password, namespace, privateFlag = false) {
     this.roomId = roomId;
-    this.roomTitle = roomTitle;
+    this.roomName = roomName;
+    this.hostId = hostId;
     this.namespace = namespace;
-    this.privateRoom = privateRoom;
-    this.history = [];
+    this.password = password;
+    this.privateFlag = privateFlag;
+    this.userList = [];
+    this.chatList = [];
   }
 
-  addMessage(message) {
-    this.history.push(message);
+  addMessage(msgObj) {
+    this.chatList.push(msgObj);
   }
 
   clearHistory() {
