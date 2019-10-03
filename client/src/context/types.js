@@ -14,3 +14,6 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 /* chat type */
 export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
+
+/* room type */
+export const MAKE_ROOM = "MAKE_ROOM";
