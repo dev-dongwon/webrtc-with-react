@@ -4,5 +4,7 @@ const express        = require('express'),
 
 // create room
 router.post('/', roomController.createRoom);
+// get room info
+router.get('/:roomId', roomController.getRoom);
 
 module.exports = router;
