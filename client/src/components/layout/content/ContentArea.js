@@ -21,7 +21,7 @@ const ContentArea = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/rooms/:roomId" component={Room} />
+          <Route exact path="/rooms/:namespace/:roomId" component={Room} />
         </Switch>
       </Grid>
     </Fragment>
