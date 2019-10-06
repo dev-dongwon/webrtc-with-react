@@ -1,22 +1,13 @@
 import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Divider, Modal, TextField, MenuItem } from "@material-ui/core";
+
 import LobbyContext from "../../context/lobby/lobbyContext";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
-import Room from "../../chatclasses/Room";
-import uuid from "uuid";
 
-const privateType = [
-  {
-    value: true,
-    label: "private"
-  },
-  {
-    value: false,
-    label: "public"
-  }
-];
+import { privateTypes, topicTypes } from "./selectTypes";
+import uuid from "uuid";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -60,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Lobby = () => {
+const Lobby = props => {
   const classes = useStyles();
 
   const lobbyContext = useContext(LobbyContext);
@@ -68,17 +59,19 @@ const Lobby = () => {
   const authContext = useContext(AuthContext);
 
   const { user } = authContext;
-  const { makeRoom, rooms, roomInfo } = lobbyContext;
+  let { makeRoom, room } = lobbyContext;
   const { setAlert } = alertContext;
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     privateFlag: false,
     password: "",
     open: false,
-    roomName: ""
+    roomName: "",
+    topic: "",
+    roomId: uuid.v4()
   });
 
-  const { open, privateFlag, password, roomName } = values;
+  let { open, privateFlag, password, roomName, topic, roomId } = values;
 
   const handleChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -96,31 +89,29 @@ const Lobby = () => {
     setValues({ ...values, open: false });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
 
-    if (roomName === "") {
+    if (roomName.length < 1) {
       setAlert("방제를 입력해주세요");
       return;
     }
 
-    if (privateFlag && password === "") {
+    if (privateFlag && password.length < 1) {
       setAlert("비밀번호를 입력해주세요");
       return;
     }
 
     makeRoom({
-      roomId: uuid.v4(),
+      roomId,
       hostId: user.user.name,
       roomName,
       privateFlag,
-      password
+      password,
+      topic
     });
 
-    const { roomId, hostId, roomName, privateFlag, password } = roomInfo;
-    const room = new Room(roomId, hostId, roomName, privateFlag, password);
-    
-    console.log(room);
+    props.history.push(`/rooms/${topicTypes[0].label}/${roomId}`);
   };
 
   return (
@@ -172,7 +163,31 @@ const Lobby = () => {
               margin="normal"
               variant="outlined"
             >
-              {privateType.map(option => (
+              {privateTypes.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="topic"
+              fullWidth
+              select
+              label="토픽"
+              name="topic"
+              className={classes.textField}
+              value={topic}
+              onChange={handleChange}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              placeholder="대화 주제를 선택해주세요"
+              margin="normal"
+              variant="outlined"
+            >
+              {topicTypes.map(option => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
