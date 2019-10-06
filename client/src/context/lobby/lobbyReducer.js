@@ -5,7 +5,7 @@ export default (state, action) => {
     case MAKE_ROOM:
       return {
         ...state,
-        roomInfo: action.payload
+        room: action.payload
       };
 
     default:
