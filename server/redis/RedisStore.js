@@ -5,8 +5,8 @@ class RedisStore {
     this.redisClient = redisClient;
   }
 
-  async createRoom({ roomId, hostId, roomName, privateFlag, password }) {
-    const data = { hostId, roomName, privateFlag, password, userList: [], chatList: [] };
+  async createRoom({ roomId, hostId, roomName, privateFlag, password, topic }) {
+    const data = { roomId, hostId, roomName, privateFlag, password, topic, userList: [], chatList: [] };
     const result = await this.redisClient.set(roomId, JSON.stringify(data));
     return result;
   }
