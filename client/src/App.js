@@ -12,15 +12,15 @@ const App = () => {
   return (
     <AlertState>
       <AuthState>
-        <Router>
-          <Grid container>
-            <CssBaseline />
-            <SideMenu />
-            <LobbyState>
+        <LobbyState>
+          <Router>
+            <Grid container>
+              <CssBaseline />
+              <SideMenu />
               <ContentArea />
-            </LobbyState>
-          </Grid>
-        </Router>
+            </Grid>
+          </Router>
+        </LobbyState>
       </AuthState>
     </AlertState>
   );
