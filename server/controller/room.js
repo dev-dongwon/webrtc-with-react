@@ -26,6 +26,14 @@ const controller = {
     } catch (error) {
       next(error);
     }
+  },
+  getAllRoom: async (req, res, next) => {
+    try {
+      const result = await redisStore.getAllRoom();
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
