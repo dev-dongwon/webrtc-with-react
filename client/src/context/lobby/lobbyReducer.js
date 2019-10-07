@@ -1,4 +1,4 @@
-import { MAKE_ROOM, REMOVE_ROOM, JOIN_ROOM } from "../types";
+import { MAKE_ROOM } from "../types";
 
 export default (state, action) => {
   switch (action.type) {

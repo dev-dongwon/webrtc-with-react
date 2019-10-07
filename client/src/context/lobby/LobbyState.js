@@ -22,7 +22,7 @@ const LobbyState = props => {
   const joinRoom = () => {};
 
   // make room
-  const makeRoom = async formData => {
+  const makeRoom = async (formData, topic) => {
     const config = {
       headers: {
         "Content-Type": "application/json"
@@ -30,7 +30,7 @@ const LobbyState = props => {
     };
 
     try {
-      const res = await axios.post("/api/rooms", formData, config);
+      const res = await axios.post(`/api/rooms/${topic}`, formData, config);
       const room = res.data;
 
       dispatch({ type: MAKE_ROOM, payload: room });
