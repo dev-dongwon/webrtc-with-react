@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 
-const generateJwtToken = async id => {
+const generateJwtToken = async ({id, name, email, photo, google_auth}) => {
   const payload = {
     user: {
-      id
+      id, name, email, photo, google_auth
     }
   };
 
   return await jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: 3600
+    expiresIn: "12h"
   });
 };
 

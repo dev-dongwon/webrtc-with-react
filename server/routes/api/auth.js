@@ -10,7 +10,7 @@ const express                         = require('express'),
   @desc    Get logged in user
   @access  Private
 */
-router.get('/', authUser, userController.getUser);
+router.get('/', authUser, authController.getUser);
 
 /*
   @route   POST api/auth

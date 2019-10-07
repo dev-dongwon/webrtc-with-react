@@ -18,12 +18,17 @@ const controller = {
         return res.status(400).json({ msg: '아이디 또는 비밀번호가 일치하지 않습니다' });
       }
 
-      const token = await generateJwtToken(user.id);
+      const token = await generateJwtToken(user);
       return res.json({ token });
     } catch (error) {
       next(error);
     }
   },
+  // check Login
+  getUser: async (req, res) => {
+    const user = req.user;
+    return res.json(user);
+  }
 };
 
 module.exports = controller;
