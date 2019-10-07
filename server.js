@@ -5,12 +5,7 @@ const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, { origins: "*:*" });
+const socketConnect = require("./server/socket/socket");
 
-io.on("connection", socket => {
-  console.log("user connect");
-  socket.on("chat", msgObj => {
-    console.log(msgObj);
-  });
-});
-
+socketConnect(io);
 server.listen(PORT);
