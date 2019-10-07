@@ -1,6 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Divider, Modal, TextField, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Modal,
+  TextField,
+  MenuItem,
+} from "@material-ui/core";
+import RoomList from "./RoomList";
 
 import LobbyContext from "../../context/lobby/lobbyContext";
 import AlertContext from "../../context/alert/alertContext";
@@ -59,7 +66,12 @@ const Lobby = props => {
   const authContext = useContext(AuthContext);
 
   const { user } = authContext;
-  const { makeRoom } = lobbyContext;
+  const { makeRoom, loadRooms, rooms } = lobbyContext;
+
+  useEffect(() => {
+    loadRooms();
+  }, []);
+
   const { setAlert } = alertContext;
 
   const [values, setValues] = useState({
@@ -102,14 +114,17 @@ const Lobby = props => {
       return;
     }
 
-    makeRoom({
-      roomId,
-      hostId: user.name,
-      roomName,
-      privateFlag,
-      password,
+    makeRoom(
+      {
+        roomId,
+        hostId: user.name,
+        roomName,
+        privateFlag,
+        password,
+        topic
+      },
       topic
-    }, topic);
+    );
 
     props.history.push(`/rooms/${topic}/${roomId}`);
   };
@@ -130,6 +145,12 @@ const Lobby = props => {
         </Button>
       </div>
       <Divider />
+      <div>
+        {rooms.map(val => (
+          <RoomList room={val} key={val.roomId}></RoomList>
+        ))}
+      </div>
+
       <Modal open={open} className={classes.modal} onClose={handleClose}>
         <div className={classes.paper}>
           <form className={classes.container} noValidate autoComplete="off">
