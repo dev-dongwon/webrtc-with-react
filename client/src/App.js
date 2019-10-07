@@ -6,6 +6,7 @@ import ContentArea from "./components/layout/content/ContentArea";
 import AuthState from "./context/auth/AuthState";
 import AlertState from "./context/alert/AlertState";
 import LobbyState from "./context/lobby/LobbyState";
+import RoomState from "./context/room/RoomState";
 import "./App.css";
 
 const App = () => {
@@ -13,13 +14,15 @@ const App = () => {
     <AlertState>
       <AuthState>
         <LobbyState>
-          <Router>
-            <Grid container>
-              <CssBaseline />
-              <SideMenu />
-              <ContentArea />
-            </Grid>
-          </Router>
+          <RoomState>
+            <Router>
+              <Grid container>
+                <CssBaseline />
+                <SideMenu />
+                <ContentArea />
+              </Grid>
+            </Router>
+          </RoomState>
         </LobbyState>
       </AuthState>
     </AlertState>
