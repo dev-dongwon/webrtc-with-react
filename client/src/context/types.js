@@ -17,5 +17,9 @@ export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 
 /* lobby type */
 export const MAKE_ROOM = "MAKE_ROOM";
+
+/* room type */
 export const JOIN_ROOM = "JOIN_ROOM";
-export const REMOVE_ROOM = "REMOVE_ROOM";
+export const LEAVE_ROOM = "LEAVE_ROOM";
+export const SEND_CHAT = "SEND_CHAT";
+export const RECEIVE_CHAT = "RECEIVE_CHAT";
