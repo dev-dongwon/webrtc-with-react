@@ -1,17 +1,28 @@
-import React, { useContext, useState } from "react";
-import ChatContext from "../../context/chat/chatContext";
-import AuthContext from "../../context/auth/authContext";
+import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Player } from "video-react";
+
+import AuthContext from "../../context/auth/authContext";
+import LobbyCotext from "../../context/lobby/lobbyContext";
+import RoomContext from "../../context/room/roomContext";
+import AlertContext from "../../context/alert/alertContext";
+
 import "../../../node_modules/video-react/dist/video-react.css";
 import {
   Paper,
   Chip,
   Button,
-  TextField
+  TextField,
+  AppBar,
+  IconButton
 } from "@material-ui/core";
 
+import { Person, Backspace } from "@material-ui/icons";
+
 const useStyles = makeStyles(theme => ({
+  chatMenu: {
+    textAlign: "right"
+  },
   root: {
     margin: "1rem",
     padding: theme.spacing(3, 2),
@@ -29,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     height: "95vh"
   },
   chatBox: {
-    height: "85%",
+    height: "82%",
     backgroundColor: "white",
     overflow: "auto"
   },
@@ -58,26 +69,77 @@ const useStyles = makeStyles(theme => ({
 
 const Room = ({ match }) => {
   const classes = useStyles();
-  const chatContext = useContext(ChatContext);
   const authContext = useContext(AuthContext);
+  const lobbyContext = useContext(LobbyCotext);
+  const roomContext = useContext(RoomContext);
+  const alertContext = useContext(AlertContext);
 
-  let { chatRoomInfo, receiveMessage, sendChatAction } = chatContext;
+  const [values, setValues] = useState({
+    topic: match.params.namespace,
+    roomId: match.params.roomId
+  });
+
+  const { topic, roomId } = values;
+
   const { user } = authContext;
-  const { allChats, members } = chatRoomInfo;
+  const { setAlert } = alertContext;
+  const { room } = lobbyContext;
+  let {
+    chatList,
+    userList,
+    joinRoom,
+    leaveRoom,
+    sendChat,
+    connectRoom,
+  } = roomContext;
+
+  const { hostId, password, privateFlag, roomName } = room;
+
+  useEffect(() => {
+    connectRoom(match.params.namespace, user, roomId);
+  }, [connectRoom]);
 
   const [textValue, changeTextValue] = useState("");
 
+  const sendChatAction = msgObj => {
+    sendChat(msgObj);
+  };
+
   const onChange = e => changeTextValue(e.target.value);
 
-  const onSubmit = () => {
-    receiveMessage({ from: user.user.name, msg: textValue });
-    sendChatAction({ from: user.user.name, msg: textValue });
+  const onKeyHandler = e => {
+    if (e.key === "Enter") {
+      onSubmit(e);
+    }
+  };
+
+  const onSubmit = e => {
+    if (!user) {
+      setAlert("로그인이 필요합니다");
+      return;
+    }
+
+    if (e.target.value === "") {
+      setAlert("내용을 입력해주세요");
+      return;
+    }
+
+    const msgObj = {
+      roomId,
+      from: user.name,
+      msg: e.target.value,
+    };
+
+    sendChatAction(msgObj);
     changeTextValue("");
   };
 
   return (
     <div>
       <Paper className={classes.root}>
+        <div>
+          <Backspace fontSize="large" />
+        </div>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <Player
@@ -85,12 +147,23 @@ const Room = ({ match }) => {
               src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
             />
             <div className={classes.flex}>
+              <div>{roomName}</div>
               <div>{match.params.roomId}</div>
             </div>
           </div>
           <div className={classes.chatWindow}>
+            <AppBar position="static">
+              <div className={classes.chatMenu}>
+                <span>LIVE CHAT</span>
+                <span>
+                  <IconButton color="inherit">
+                    <Person />
+                  </IconButton>
+                </span>
+              </div>
+            </AppBar>
             <div className={classes.chatBox}>
-              {allChats.map((chat, i) => {
+              {chatList.map((chat, i) => {
                 return (
                   <div
                     className={classes.flex}
@@ -111,6 +184,7 @@ const Room = ({ match }) => {
                   placeholder="Send a chat"
                   value={textValue}
                   onChange={onChange}
+                  onKeyDown={onKeyHandler}
                 />
               </div>
               <div className={classes.button}>

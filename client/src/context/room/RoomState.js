@@ -26,7 +26,7 @@ const RoomState = props => {
     if (!socket) {
       socket = io(`http://localhost:5000/${namespace}`, {
         query: {
-          username: user.user.name
+          username: user.name
         }
       });
       socket.emit("join", roomId, number => {
