@@ -4,11 +4,11 @@ import axios from "axios";
 import LobbyContext from "./lobbyContext";
 import LobbyReducer from "./lobbyReducer";
 
-import { MAKE_ROOM, JOIN_ROOM } from "../types";
+import { MAKE_ROOM, LOAD_ROOMS } from "../types";
 
 const LobbyState = props => {
   const initialState = {
-    rooms: {},
+    rooms: [],
     room: ""
   };
 
@@ -16,7 +16,13 @@ const LobbyState = props => {
   const { rooms, room } = state;
 
   // load rooms
-  const loadRooms = async () => {};
+  const loadRooms = async () => {
+    try {
+      const res = await axios.get(`/api/rooms`);
+      const roomList = res.data;
+      dispatch({ type: LOAD_ROOMS, payload: roomList });
+    } catch (error) {}
+  };
 
   // join room
   const joinRoom = () => {};
@@ -38,7 +44,7 @@ const LobbyState = props => {
   };
 
   return (
-    <LobbyContext.Provider value={{ makeRoom, room }}>
+    <LobbyContext.Provider value={{ makeRoom, loadRooms, room, rooms }}>
       {props.children}
     </LobbyContext.Provider>
   );

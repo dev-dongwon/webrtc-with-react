@@ -1,4 +1,4 @@
-import { MAKE_ROOM } from "../types";
+import { MAKE_ROOM, LOAD_ROOMS } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ export default (state, action) => {
       return {
         ...state,
         room: action.payload
+      };
+    case LOAD_ROOMS:
+      return {
+        ...state,
+        rooms: action.payload
       };
 
     default:

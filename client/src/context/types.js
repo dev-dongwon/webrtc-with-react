@@ -17,6 +17,7 @@ export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 
 /* lobby type */
 export const MAKE_ROOM = "MAKE_ROOM";
+export const LOAD_ROOMS = "LOAD_ROOMS";
 
 /* room type */
 export const JOIN_ROOM = "JOIN_ROOM";
