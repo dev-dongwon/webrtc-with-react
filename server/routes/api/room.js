@@ -3,8 +3,8 @@ const express        = require('express'),
       roomController = require('../../controller/room');
 
 // create room
-router.post('/', roomController.createRoom);
+router.post('/:namespace', roomController.createRoom);
 // get room info
-router.get('/:roomId', roomController.getRoom);
+router.get('/:namespace/:roomId', roomController.getRoom);
 
 module.exports = router;
