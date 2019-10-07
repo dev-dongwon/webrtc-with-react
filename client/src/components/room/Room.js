@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     height: "95vh"
   },
   chatBox: {
-    height: "82%",
+    height: "75%",
     backgroundColor: "white",
     overflow: "auto"
   },
@@ -81,7 +81,7 @@ const Room = ({ match }) => {
 
   const { topic, roomId } = values;
 
-  const { user } = authContext;
+  const { token, user, loadUser } = authContext;
   const { setAlert } = alertContext;
   const { room } = lobbyContext;
   let {
@@ -90,14 +90,16 @@ const Room = ({ match }) => {
     joinRoom,
     leaveRoom,
     sendChat,
-    connectRoom,
+    connectRoom
   } = roomContext;
 
   const { hostId, password, privateFlag, roomName } = room;
 
   useEffect(() => {
-    connectRoom(match.params.namespace, user, roomId);
-  }, [connectRoom]);
+    if (user) {
+      connectRoom(match.params.namespace, user, roomId);
+    }
+  }, [user, connectRoom]);
 
   const [textValue, changeTextValue] = useState("");
 
@@ -127,7 +129,7 @@ const Room = ({ match }) => {
     const msgObj = {
       roomId,
       from: user.name,
-      msg: e.target.value,
+      msg: e.target.value
     };
 
     sendChatAction(msgObj);
