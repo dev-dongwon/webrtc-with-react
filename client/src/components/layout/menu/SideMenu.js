@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import AuthContext from "../../../context/auth/authContext";
+
 import Sign from "./Sign";
 import Items from "./Items";
 import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  nav : {
+  nav: {
     position: "fixed",
     zIndex: "1",
     background: "#74BDCB",
@@ -15,6 +17,14 @@ const useStyles = makeStyles(theme => ({
 
 const Nav = () => {
   const classes = useStyles();
+  const authContext = useContext(AuthContext);
+  const { loadUser, user, token } = authContext;
+
+  useEffect(() => {
+    if (token && !user) {
+      loadUser();
+    }
+  }, [token, user]);
 
   return (
     <Grid item xs={false} sm={4} md={2} className={classes.nav}>

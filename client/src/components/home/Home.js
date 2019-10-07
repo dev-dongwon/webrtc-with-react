@@ -1,15 +1,6 @@
-import React, { useContext, useEffect } from "react";
-import AuthContext from "../../context/auth/authContext";
+import React, {  } from "react";
 
 const Home = () => {
-  const authContext = useContext(AuthContext);
-  const { loadUser, user, token } = authContext;
-
-  useEffect(() => {
-    if (token && !user) {
-      loadUser();
-    }
-  }, [token, user]);
 
   return <div></div>;
 };

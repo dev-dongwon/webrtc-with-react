@@ -68,7 +68,7 @@ const Sign = () => {
   const loginUserComponent = user => (
     <div className={classes.top}>
       <Divider variant="middle" className={classes.divider}></Divider>
-      <div className={classes.profile}>{user.user.name}</div>
+      <div className={classes.profile}>{user.name}</div>
       <div className={classes.wrapper}>
         <Button
           variant="outlined"
