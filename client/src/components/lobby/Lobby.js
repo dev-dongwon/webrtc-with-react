@@ -59,7 +59,7 @@ const Lobby = props => {
   const authContext = useContext(AuthContext);
 
   const { user } = authContext;
-  let { makeRoom, room } = lobbyContext;
+  const { makeRoom } = lobbyContext;
   const { setAlert } = alertContext;
 
   const [values, setValues] = useState({
@@ -104,14 +104,14 @@ const Lobby = props => {
 
     makeRoom({
       roomId,
-      hostId: user.user.name,
+      hostId: user.name,
       roomName,
       privateFlag,
       password,
       topic
-    });
+    }, topic);
 
-    props.history.push(`/rooms/${topicTypes[0].label}/${roomId}`);
+    props.history.push(`/rooms/${topic}/${roomId}`);
   };
 
   return (

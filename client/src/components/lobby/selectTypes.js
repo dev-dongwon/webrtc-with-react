@@ -1,5 +1,5 @@
 const selectTypes = {
-  privateTypes : [
+  privateTypes: [
     {
       value: true,
       label: "private"
@@ -10,16 +10,16 @@ const selectTypes = {
     }
   ],
 
-  topicTypes : [
+  topicTypes: [
     {
-      value: 0,
+      value: "talk",
       label: "talk"
     },
     {
-      value: 1,
+      value: "jam",
       label: "jam"
     }
   ]
-}
+};
 
 module.exports = selectTypes;
