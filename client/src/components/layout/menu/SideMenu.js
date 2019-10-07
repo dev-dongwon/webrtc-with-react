@@ -24,7 +24,7 @@ const Nav = () => {
     if (token && !user) {
       loadUser();
     }
-  }, [token, user]);
+  }, [token, user, loadUser]);
 
   return (
     <Grid item xs={false} sm={4} md={2} className={classes.nav}>
