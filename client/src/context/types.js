@@ -24,3 +24,6 @@ export const JOIN_ROOM = "JOIN_ROOM";
 export const LEAVE_ROOM = "LEAVE_ROOM";
 export const SEND_CHAT = "SEND_CHAT";
 export const RECEIVE_CHAT = "RECEIVE_CHAT";
+
+/* video type */
+export const GET_MY_SRC = "GET_MY_SRC";
