@@ -24,9 +24,6 @@ const LobbyState = props => {
     } catch (error) {}
   };
 
-  // join room
-  const joinRoom = () => {};
-
   // make room
   const makeRoom = async (formData, topic) => {
     const config = {
