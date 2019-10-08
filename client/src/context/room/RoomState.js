@@ -5,7 +5,7 @@ import RoomContext from "./roomContext";
 import RoomReducer from "./roomReducer";
 import AuthContext from "../../context/auth/authContext";
 
-import { JOIN_ROOM, LEAVE_ROOM, SEND_CHAT, RECEIVE_CHAT } from "../types";
+import { JOIN_ROOM, LEAVE_ROOM, RECEIVE_CHAT } from "../types";
 
 let socket;
 
@@ -29,9 +29,16 @@ const RoomState = props => {
           username: user.name
         }
       });
-      socket.emit("join", roomId, number => {
-        console.log(number);
+      socket.emit("join", roomId, obj => {
+        const { userNumbers, username } = obj;
+        socket.emit("chat", {
+          roomId,
+          from: "server:entrance",
+          msg: username
+        });
+        console.log(userNumbers);
       });
+      receiveChat();
     }
   };
 
@@ -42,16 +49,23 @@ const RoomState = props => {
     });
   };
 
-  // join Room
-  const joinRoom = () => {
-    socket.emit("join", username => {
-      const msg = `${username}님이 입장하셨습니다`;
-      dispatch({ type: JOIN_ROOM, payload: username });
-    });
+  const windowBackEvent = () => {
+    window.addEventListener(
+      "popstate",
+      event => {
+        leaveRoom();
+        window.location = document.referrer;
+      },
+      false
+    );
   };
 
   // leave Room
-  const leaveRoom = () => {};
+  const leaveRoom = () => {
+    socket.close();
+    socket = null;
+    dispatch({ type: LEAVE_ROOM });
+  };
 
   // send chat
   const sendChat = msgObj => {
@@ -63,11 +77,11 @@ const RoomState = props => {
       value={{
         chatList,
         userList,
-        joinRoom,
         leaveRoom,
         sendChat,
         receiveChat,
-        connectRoom
+        connectRoom,
+        windowBackEvent
       }}
     >
       {props.children}

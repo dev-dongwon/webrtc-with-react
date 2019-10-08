@@ -12,7 +12,11 @@ export default (state, action) => {
         ...state,
         chatList: [...state["chatList"], action.payload]
       };
-
+    case LEAVE_ROOM:
+      return {
+        chatList: [],
+        userList: []
+      };
     default:
       return state;
   }
