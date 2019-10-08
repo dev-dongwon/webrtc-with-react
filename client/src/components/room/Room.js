@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Player } from "video-react";
 
 import AuthContext from "../../context/auth/authContext";
 import LobbyCotext from "../../context/lobby/lobbyContext";
 import RoomContext from "../../context/room/roomContext";
 import AlertContext from "../../context/alert/alertContext";
 
-import "../../../node_modules/video-react/dist/video-react.css";
+import VideoInRoom from "./VideoInRoom";
+
 import {
   Paper,
   Chip,
@@ -64,10 +64,17 @@ const useStyles = makeStyles(theme => ({
   },
   textBox: {
     width: "330px"
+  },
+  server: {
+    textAlign: "center",
+    margin: "15px auto 15px auto"
+  },
+  entrance: {
+    fontWeight: "700"
   }
 }));
 
-const Room = ({ match }) => {
+const Room = ({ match, history }) => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
   const lobbyContext = useContext(LobbyCotext);
@@ -79,27 +86,29 @@ const Room = ({ match }) => {
     roomId: match.params.roomId
   });
 
-  const { topic, roomId } = values;
+  const { roomId } = values;
 
-  const { token, user, loadUser } = authContext;
+  const { user } = authContext;
   const { setAlert } = alertContext;
   const { room } = lobbyContext;
   let {
     chatList,
     userList,
-    joinRoom,
     leaveRoom,
     sendChat,
-    connectRoom
+    receiveChat,
+    connectRoom,
+    windowBackEvent
   } = roomContext;
 
-  const { hostId, password, privateFlag, roomName } = room;
+  const { roomName } = room;
 
   useEffect(() => {
     if (user) {
       connectRoom(match.params.namespace, user, roomId);
     }
-  }, [user, connectRoom]);
+    windowBackEvent();
+  }, [user, roomId]);
 
   const [textValue, changeTextValue] = useState("");
 
@@ -115,9 +124,15 @@ const Room = ({ match }) => {
     }
   };
 
+  const onLeave = e => {
+    e.preventDefault();
+    leaveRoom();
+    history.push("/lobby");
+  };
+
   const onSubmit = e => {
     if (!user) {
-      setAlert("로그인이 필요합니다");
+      setAlert("로그인`이 필요합니다");
       return;
     }
 
@@ -140,14 +155,11 @@ const Room = ({ match }) => {
     <div>
       <Paper className={classes.root}>
         <div>
-          <Backspace fontSize="large" />
+          <Backspace fontSize="large" onClick={onLeave} />
         </div>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
-            <Player
-              autoPlay={false}
-              src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-            />
+            <VideoInRoom></VideoInRoom>
             <div className={classes.flex}>
               <div>{roomName}</div>
               <div>{match.params.roomId}</div>
@@ -166,7 +178,12 @@ const Room = ({ match }) => {
             </AppBar>
             <div className={classes.chatBox}>
               {chatList.map((chat, i) => {
-                return (
+                return chat.from === "server:entrance" ? (
+                  <div className={classes.server} key={i}>
+                    <span className={classes.entrance}>{chat.msg}</span>
+                    <span>님이 입장하셨습니다</span>
+                  </div>
+                ) : (
                   <div
                     className={classes.flex}
                     key={i}
