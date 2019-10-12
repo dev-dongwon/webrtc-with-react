@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import ReactPlayer from "react-player";
 import AuthContext from "../../context/auth/authContext";
 import LobbyCotext from "../../context/lobby/lobbyContext";
 import RoomContext from "../../context/room/roomContext";
 import AlertContext from "../../context/alert/alertContext";
-
-import VideoInRoom from "./VideoInRoom";
+import UserList from "./UserList";
 
 import {
   Paper,
@@ -14,7 +13,8 @@ import {
   Button,
   TextField,
   AppBar,
-  IconButton
+  IconButton,
+  Typography
 } from "@material-ui/core";
 
 import { Person, Backspace } from "@material-ui/icons";
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     height: "95vh"
   },
   chatBox: {
-    height: "75%",
+    height: "70%",
     backgroundColor: "white",
     overflow: "auto"
   },
@@ -71,6 +71,22 @@ const useStyles = makeStyles(theme => ({
   },
   entrance: {
     fontWeight: "700"
+  },
+  myPlayerArea: {
+    width: "100%",
+    height: "60vh",
+    marginBottom: "2vh"
+  },
+
+  anotherPlayer: {
+    width: "100%",
+    height: "20vh"
+  },
+
+  smallPlayer: {
+    float: "left",
+    margin: "0 2% 0 2%",
+    backgroundColor: "black"
   }
 }));
 
@@ -83,30 +99,37 @@ const Room = ({ match, history }) => {
 
   const [values, setValues] = useState({
     topic: match.params.namespace,
-    roomId: match.params.roomId
+    roomId: match.params.roomId,
+    userListFlag: false
   });
 
-  const { roomId } = values;
+  const { roomId, topic, userListFlag } = values;
 
   const { user } = authContext;
   const { setAlert } = alertContext;
-  const { room } = lobbyContext;
+
   let {
     chatList,
     userList,
     leaveRoom,
     sendChat,
-    receiveChat,
-    connectRoom,
-    windowBackEvent
+    localStream,
+    windowBackEvent,
+    joinRoom,
+    currentRoom,
+    remoteStreamArr,
+    remoteStream
   } = roomContext;
 
-  const { roomName } = room;
-
   useEffect(() => {
-    if (user) {
-      connectRoom(match.params.namespace, user, roomId);
+    async function join() {
+      await joinRoom(topic, roomId, user);
     }
+
+    if (user) {
+      join();
+    }
+
     windowBackEvent();
   }, [user, roomId]);
 
@@ -114,6 +137,14 @@ const Room = ({ match, history }) => {
 
   const sendChatAction = msgObj => {
     sendChat(msgObj);
+  };
+
+  const onUserList = () => {
+    if (!userListFlag) {
+      setValues({ ...values, userListFlag: true });
+      return;
+    }
+    setValues({ ...values, userListFlag: false });
   };
 
   const onChange = e => changeTextValue(e.target.value);
@@ -158,43 +189,72 @@ const Room = ({ match, history }) => {
           <Backspace fontSize="large" onClick={onLeave} />
         </div>
         <div className={classes.flex}>
+          <Typography variant="h4">
+            {currentRoom !== "" ? currentRoom.roomName : "asdf"}
+          </Typography>
+        </div>
+        <div className={classes.flex}>
           <div className={classes.topicsWindow}>
-            <VideoInRoom></VideoInRoom>
-            <div className={classes.flex}>
-              <div>{roomName}</div>
-              <div>{match.params.roomId}</div>
+            <div>
+              <div className={classes.myPlayerArea}>
+                <ReactPlayer
+                  playing
+                  url={localStream}
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+              {remoteStream ? (
+                <div className={classes.anotherPlayer}>
+                  <div>this is remote stream</div>
+                  <ReactPlayer
+                    playing
+                    url={remoteStream}
+                    width="21%"
+                    height="100%"
+                    className={classes.smallPlayer}
+                  />
+                </div>
+              ) : null}
             </div>
+            {/* <VideoInRoom localStream={localStream}></VideoInRoom> */}
           </div>
           <div className={classes.chatWindow}>
             <AppBar position="static">
               <div className={classes.chatMenu}>
                 <span>LIVE CHAT</span>
                 <span>
-                  <IconButton color="inherit">
+                  <IconButton color="inherit" onClick={onUserList}>
                     <Person />
                   </IconButton>
                 </span>
               </div>
             </AppBar>
-            <div className={classes.chatBox}>
-              {chatList.map((chat, i) => {
-                return chat.from === "server:entrance" ? (
-                  <div className={classes.server} key={i}>
-                    <span className={classes.entrance}>{chat.msg}</span>
-                    <span>님이 입장하셨습니다</span>
-                  </div>
-                ) : (
-                  <div
-                    className={classes.flex}
-                    key={i}
-                    className={classes.messageWrapper}
-                  >
-                    <Chip label={chat.from} className={classes.chip} />
-                    {chat.msg}
-                  </div>
-                );
-              })}
-            </div>
+            {userListFlag ? (
+              <div className={classes.chatBox}>
+                <UserList userList={userList}></UserList>
+              </div>
+            ) : (
+              <div className={classes.chatBox}>
+                {chatList.map((chat, i) => {
+                  return chat.from === "server:entrance" ? (
+                    <div className={classes.server} key={i}>
+                      <span className={classes.entrance}>{chat.msg}</span>
+                      <span>님이 입장하셨습니다</span>
+                    </div>
+                  ) : (
+                    <div
+                      className={classes.flex}
+                      key={i}
+                      className={classes.messageWrapper}
+                    >
+                      <Chip label={chat.from} className={classes.chip} />
+                      {chat.msg}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
             <div className={classes.messageBox} className={classes.button}>
               <div>
                 <TextField
