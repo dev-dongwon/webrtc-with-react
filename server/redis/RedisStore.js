@@ -40,6 +40,11 @@ class RedisStore {
     }
     return result;
   }
+
+  async removeRoom(key) {
+    const result = await this.redisClient.del(key);
+    return result;
+  }
 }
 
 const redisStore = new RedisStore();

@@ -18,6 +18,7 @@ const controller = {
       next(error);
     }
   },
+  // 특정 room 가져오기
   getRoom: async (req, res, next) => {
     try {
       const { namespace, roomId } = req.params;
@@ -27,9 +28,20 @@ const controller = {
       next(error);
     }
   },
+  // 모든 room 정보 가져오기
   getAllRoom: async (req, res, next) => {
     try {
       const result = await redisStore.getAllRoom();
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
+  // 특정 room 삭제하기
+  removeRoom: async (req, res, next) => {
+    try {
+      const { namespace, roomId } = req.params;
+      const result = await redisStore.removeRoom(`${namespace}:${roomId}`);
       return res.json(result);
     } catch (error) {
       next(error);
