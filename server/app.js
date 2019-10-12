@@ -4,6 +4,10 @@ require("dotenv").config();
 const sequelize = require("./db/models").sequelize;
 sequelize.sync();
 
+// mongo DB
+const mongoConnector = require('./mongoDB/connect-mongo');
+mongoConnector();
+
 // import modules
 const express = require("express"),
       morgan  = require("morgan"),
