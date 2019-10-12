@@ -4,6 +4,7 @@ const express                         = require('express'),
       userController                  = require('../../controller/user'),
       { validator, checkValidation }  = require('../../middlewares/validator'),
       authUser                        = require('../../middlewares/auth-user');
+      loginLogger                     = require('../../middlewares/logging');
 
 /*
   @route   GET api/auth
@@ -17,5 +18,5 @@ router.get('/', authUser, authController.getUser);
   @desc    Auth user & Get token
   @access  Public
 */
-router.post('/', validator.auth, checkValidation, authController.login);
+router.post('/', validator.auth, checkValidation, loginLogger, authController.login);
 module.exports = router;

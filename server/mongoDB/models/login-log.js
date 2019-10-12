@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 
 const LoginLogSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  device: {
-    type: String,
-    required: true
-  },
   os: {
     type: String,
     required: true
