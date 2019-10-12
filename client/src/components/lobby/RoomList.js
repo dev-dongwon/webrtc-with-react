@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -6,6 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Person } from "@material-ui/icons";
+import AuthContext from "../../context/auth/authContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const useStyles = makeStyles({
   card: {
@@ -30,11 +32,24 @@ const useStyles = makeStyles({
 
 const RoomList = ({ room }) => {
   const classes = useStyles();
+  const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
+
+  const { user } = authContext;
+  const { setAlert } = alertContext;
+
   const url = `/rooms/${room.topic}/${room.roomId}`;
 
+  const onClickHandler = e => {
+    if (!user) {
+      e.preventDefault();
+      setAlert("로그인이 필요한 서비스입니다");
+    }
+  };
+
   return (
-    <Link to={url}>
-      <Card className={classes.card}>
+    <Card className={classes.card}>
+      <Link to={url} onClick={onClickHandler}>
         <CardContent>
           <Typography
             className={classes.title}
@@ -53,8 +68,8 @@ const RoomList = ({ room }) => {
         <CardActions>
           <Person></Person>
         </CardActions>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 
