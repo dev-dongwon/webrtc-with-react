@@ -13,10 +13,13 @@ const useStyles = makeStyles({
   card: {
     width: "21%",
     height: "200px",
-    border: "1px solid black",
     margin: "2%",
-    float: "left"
+    float: "left",
+    "&:hover": {
+      backgroundColor: "#ccebff"
+    }
   },
+
   bullet: {
     display: "inline-block",
     margin: "0 2px",
@@ -48,8 +51,8 @@ const RoomList = ({ room }) => {
   };
 
   return (
-    <Card className={classes.card}>
-      <Link to={url} onClick={onClickHandler}>
+    <Link to={url} onClick={onClickHandler}>
+      <Card className={classes.card}>
         <CardContent>
           <Typography
             className={classes.title}
@@ -68,8 +71,8 @@ const RoomList = ({ room }) => {
         <CardActions>
           <Person></Person>
         </CardActions>
-      </Link>
-    </Card>
+      </Card>
+    </Link>
   );
 };
 

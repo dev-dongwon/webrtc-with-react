@@ -1,7 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Divider, Modal, TextField, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Modal,
+  TextField,
+  MenuItem,
+  Typography
+} from "@material-ui/core";
 import RoomList from "./RoomList";
+import Navigation from "./Navigation";
 
 import LobbyContext from "../../context/lobby/lobbyContext";
 import AlertContext from "../../context/alert/alertContext";
@@ -17,7 +25,8 @@ const useStyles = makeStyles(theme => ({
     padding: "2rem"
   },
   button: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(2),
+    float: "right"
   },
   input: {
     display: "none"
@@ -49,6 +58,11 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     marginTop: "1rem",
     marginBottom: "1rem"
+  },
+  typo: {
+    fontWeight: "900",
+    fontSize: "50px",
+    margin: theme.spacing(3)
   }
 }));
 
@@ -126,19 +140,20 @@ const Lobby = props => {
   return (
     <div>
       <div className={classes.topHeader}>
-        <Button variant="contained" className={classes.button}>
-          Default
-        </Button>
         <Button
           variant="contained"
           color="primary"
+          size="large"
           className={classes.button}
           onClick={handleOpen}
         >
           방 만들기
         </Button>
       </div>
-      <Divider />
+      <div>
+        <Typography className={classes.typo}>{"SEARCH & PLAY"}</Typography>
+        <Navigation></Navigation>
+      </div>
       <div>
         {rooms.map(val => (
           <RoomList room={val} key={val.roomId}></RoomList>
