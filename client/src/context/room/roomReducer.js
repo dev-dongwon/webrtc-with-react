@@ -5,11 +5,24 @@ import {
   UPDATE_ROOM,
   SET_LOCAL_STREAM,
   SET_REMOTE_STREAM,
-  SET_MY_SOCKET
+  SET_MY_SOCKET,
+  CLEAR_ROOM_STATE
 } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
+    case CLEAR_ROOM_STATE: {
+      return {
+        chatList: [],
+        userList: {},
+        localStream: null,
+        remoteStream: null,
+        remoteStreamArr: [],
+        remotePeerArr: [],
+        currentRoom: "",
+        mySocketId: null
+      };
+    }
     case SET_MY_SOCKET: {
       return {
         ...state,

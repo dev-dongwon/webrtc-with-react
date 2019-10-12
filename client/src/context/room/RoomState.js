@@ -16,6 +16,7 @@ import {
   SET_LOCAL_STREAM,
   SET_REMOTE_STREAM,
   SET_MY_SOCKET,
+  CLEAR_ROOM_STATE
 } from "../types";
 
 let socket;
@@ -31,7 +32,7 @@ const RoomState = props => {
     remoteStreamArr: [],
     remotePeerArr: [],
     currentRoom: "",
-    mySocketId: null,
+    mySocketId: null
   };
 
   const alertContext = useContext(AlertContext);
@@ -47,7 +48,7 @@ const RoomState = props => {
     remoteStream,
     remoteStreamArr,
     remotePeerArr,
-    mySocketId,
+    mySocketId
   } = state;
 
   // Init Peer
@@ -65,10 +66,18 @@ const RoomState = props => {
 
     peer.on("close", () => {
       dispatch({ type: SET_REMOTE_STREAM, payload: null });
+      dispatch({ type: SET_LOCAL_STREAM, payload: null });
       peer.destory();
     });
 
     return peer;
+  };
+
+  const closePeer = async () => {
+    localStream.getTracks().forEach(track => track.stop());
+    socket = null;
+    client = {};
+    peer = null;
   };
 
   // make Init Peer - signal을 보내는 주체
@@ -147,6 +156,17 @@ const RoomState = props => {
     }
   };
 
+  const deleteRoom = async (topic, roomId, user) => {
+    try {
+      const res = await axios.delete(`/api/rooms/${topic}/${roomId}`);
+      console.log(res);
+      dispatch({ type: CLEAR_ROOM_STATE, payload: null });
+    } catch (error) {
+      console.error(error);
+      setAlert("잠시 후 다시 시도해주세요");
+    }
+  };
+
   // connect Room
   const connectRoom = (namespace, user, roomId, currentRoom) => {
     if (!socket) {
@@ -165,8 +185,6 @@ const RoomState = props => {
 
       socket.emit("join", roomId);
       socket.emit("mySocket");
-
-      setLocalStream(user, currentRoom);
     }
   };
 
@@ -208,7 +226,7 @@ const RoomState = props => {
     socket.emit("close");
     socket.close();
     socket = null;
-    dispatch({ type: LEAVE_ROOM });
+    dispatch({ type: CLEAR_ROOM_STATE, payload: null });
   };
 
   // send chat
@@ -227,15 +245,29 @@ const RoomState = props => {
     );
   };
 
+  const exitRoom = () => {
+    dispatch({ type: CLEAR_ROOM_STATE, payload: null });
+  };
+
   // set local stream
-  const setLocalStream = async (user, currentRoom) => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: { width: 1280, height: 720 }
-    });
+  const setStream = async streamType => {
+    let stream;
+
+    if (streamType === "video") {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: { width: 1280, height: 720 }
+      });
+    }
+
+    if (streamType === "screen") {
+      stream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
+      });
+    }
 
     dispatch({ type: SET_LOCAL_STREAM, payload: stream });
-
     backOffer(stream);
     setSignal();
   };
@@ -257,6 +289,10 @@ const RoomState = props => {
         remoteStream,
         mySocketId,
         makePeer,
+        closePeer,
+        setStream,
+        exitRoom,
+        deleteRoom
       }}
     >
       {props.children}
