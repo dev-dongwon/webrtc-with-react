@@ -217,7 +217,6 @@ const Room = ({ match, history }) => {
                 </div>
               ) : null}
             </div>
-            {/* <VideoInRoom localStream={localStream}></VideoInRoom> */}
           </div>
           <div className={classes.chatWindow}>
             <AppBar position="static">
