@@ -23,7 +23,8 @@ export const LOAD_ROOMS = "LOAD_ROOMS";
 export const JOIN_ROOM = "JOIN_ROOM";
 export const LEAVE_ROOM = "LEAVE_ROOM";
 export const SEND_CHAT = "SEND_CHAT";
+export const UPDATE_ROOM = "UPDATE_ROOM";
 export const RECEIVE_CHAT = "RECEIVE_CHAT";
-
-/* video type */
-export const GET_MY_SRC = "GET_MY_SRC";
+export const SET_LOCAL_STREAM = "SET_LOCAL_STREAM";
+export const SET_REMOTE_STREAM = "SET_REMOTE_STREAM";
+export const SET_MY_SOCKET = "SET_MY_SOCKET";
