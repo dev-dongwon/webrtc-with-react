@@ -27,7 +27,7 @@ const Nav = () => {
   }, [token, user, loadUser]);
 
   return (
-    <Grid item xs={false} sm={4} md={2} className={classes.nav}>
+    <Grid item xs={false} sm={2} md={2} className={classes.nav}>
       <Items></Items>
       <Sign></Sign>
     </Grid>

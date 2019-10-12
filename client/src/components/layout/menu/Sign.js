@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
   },
   profile: {
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: "5%"
   },
   wrapper: {
     textAlign: "center"
@@ -33,6 +34,10 @@ const useStyles = makeStyles(theme => ({
   },
   divider: {
     marginBottom: "5%"
+  },
+  welcome: {
+    fontWeight: "700",
+    marginRight: theme.spacing(1)
   }
 }));
 
@@ -68,10 +73,14 @@ const Sign = () => {
   const loginUserComponent = user => (
     <div className={classes.top}>
       <Divider variant="middle" className={classes.divider}></Divider>
-      <div className={classes.profile}>{user.name}</div>
+      <div className={classes.profile}>
+        <span className={classes.welcome}>Welcome</span>
+        <span>{user.name}</span>
+      </div>
       <div className={classes.wrapper}>
         <Button
           variant="outlined"
+          color="secondary"
           className={classes.whiteButton}
           onClick={logout}
         >

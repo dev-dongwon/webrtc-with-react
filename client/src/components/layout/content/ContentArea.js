@@ -12,8 +12,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 const ContentArea = () => {
   return (
     <Fragment>
-      <Grid item xs={2} sm={2} md={2}></Grid>
-      <Grid item xs={8} sm={8} md={10} className="content">
+      <Grid item xs={false} sm={2} md={2}></Grid>
+      <Grid item xs={false} sm={10} md={10} className="content">
         <Alert />
         <Switch>
           <Route exact path="/" component={Home} />
