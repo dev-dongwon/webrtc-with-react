@@ -1,6 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
+import Fab from "@material-ui/core/Fab";
+import { AirplayOutlined, ExitToApp, Person } from "@material-ui/icons";
+
 import AuthContext from "../../context/auth/authContext";
 import LobbyCotext from "../../context/lobby/lobbyContext";
 import RoomContext from "../../context/room/roomContext";
@@ -8,25 +11,26 @@ import AlertContext from "../../context/alert/alertContext";
 import UserList from "./UserList";
 
 import {
-  Paper,
   Chip,
   Button,
   TextField,
   AppBar,
   IconButton,
-  Typography
+  Typography,
+  Grid
 } from "@material-ui/core";
 
-import { Person, Backspace } from "@material-ui/icons";
-
 const useStyles = makeStyles(theme => ({
+  title: {
+    marginTop: "5%"
+  },
   chatMenu: {
     textAlign: "right"
   },
   root: {
     margin: "1rem",
     padding: theme.spacing(3, 2),
-    height: "96vh"
+    height: "95vh"
   },
   flex: {
     display: "flex"
@@ -40,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     height: "95vh"
   },
   chatBox: {
-    height: "70%",
+    height: "75%",
     backgroundColor: "white",
     overflow: "auto"
   },
@@ -74,26 +78,28 @@ const useStyles = makeStyles(theme => ({
   },
   myPlayerArea: {
     width: "100%",
-    height: "60vh",
-    marginBottom: "2vh"
+    height: "46vh"
   },
-
-  anotherPlayer: {
-    width: "100%",
-    height: "20vh"
+  fab: {
+    margin: theme.spacing(1)
   },
-
-  smallPlayer: {
-    float: "left",
-    margin: "0 2% 0 2%",
-    backgroundColor: "black"
+  extendedIcon: {
+    marginRight: theme.spacing(1)
+  },
+  deleteButton: {
+    margin: theme.spacing(3),
+    width: "10%",
+    fontSize: "10px",
+    borderRadius: "10px"
+  },
+  videoBox: {
+    height: "600px"
   }
 }));
 
 const Room = ({ match, history }) => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
-  const lobbyContext = useContext(LobbyCotext);
   const roomContext = useContext(RoomContext);
   const alertContext = useContext(AlertContext);
 
@@ -117,8 +123,9 @@ const Room = ({ match, history }) => {
     windowBackEvent,
     joinRoom,
     currentRoom,
-    remoteStreamArr,
-    remoteStream
+    remoteStream,
+    setStream,
+    deleteRoom
   } = roomContext;
 
   useEffect(() => {
@@ -131,12 +138,22 @@ const Room = ({ match, history }) => {
     }
 
     windowBackEvent();
-  }, [user, roomId]);
+  }, [user, roomId, localStream]);
+
+  const videoRef = useRef(null);
 
   const [textValue, changeTextValue] = useState("");
 
   const sendChatAction = msgObj => {
     sendChat(msgObj);
+  };
+
+  const getScreen = () => {
+    setStream("screen");
+  };
+
+  const getCam = () => {
+    setStream("video");
   };
 
   const onUserList = () => {
@@ -155,9 +172,13 @@ const Room = ({ match, history }) => {
     }
   };
 
-  const onLeave = e => {
-    e.preventDefault();
+  const onExit = () => {
     leaveRoom();
+    history.push("/lobby");
+  };
+
+  const onDelete = e => {
+    deleteRoom(currentRoom.topic, currentRoom.roomId, user);
     history.push("/lobby");
   };
 
@@ -167,7 +188,7 @@ const Room = ({ match, history }) => {
       return;
     }
 
-    if (e.target.value === "") {
+    if (textValue === "") {
       setAlert("내용을 입력해주세요");
       return;
     }
@@ -175,7 +196,7 @@ const Room = ({ match, history }) => {
     const msgObj = {
       roomId,
       from: user.name,
-      msg: e.target.value
+      msg: textValue
     };
 
     sendChatAction(msgObj);
@@ -183,97 +204,142 @@ const Room = ({ match, history }) => {
   };
 
   return (
-    <div>
-      <Paper className={classes.root}>
-        <div>
-          <Backspace fontSize="large" onClick={onLeave} />
-        </div>
-        <div className={classes.flex}>
-          <Typography variant="h4">
-            {currentRoom !== "" ? currentRoom.roomName : "asdf"}
-          </Typography>
-        </div>
-        <div className={classes.flex}>
-          <div className={classes.topicsWindow}>
-            <div>
-              <div className={classes.myPlayerArea}>
+    <div className={classes.root}>
+      <div className={classes.flex}>
+        <div className={classes.topicsWindow}>
+          <div className={classes.myPlayerArea}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                {/* <Backspace fontSize="large" onClick={onLeave} /> */}
+                <Fab
+                  variant="outlined"
+                  variant="extended"
+                  size="medium"
+                  color="primary"
+                  className={classes.fab}
+                  onClick={getCam}
+                >
+                  <Person className={classes.extendedIcon} />
+                  Get My CAM
+                </Fab>
+                <Fab
+                  variant="outlined"
+                  variant="extended"
+                  size="medium"
+                  color="secondary"
+                  className={classes.fab}
+                  onClick={getScreen}
+                >
+                  <AirplayOutlined className={classes.extendedIcon} />
+                  Get my Screen
+                </Fab>
+              </Grid>
+              <Grid item xs={12} sm={8} className={classes.videoBox}>
                 <ReactPlayer
                   playing
                   url={localStream}
                   width="100%"
                   height="100%"
+                  ref={videoRef}
                 />
-              </div>
-              {remoteStream ? (
-                <div className={classes.anotherPlayer}>
-                  <div>this is remote stream</div>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                {remoteStream ? (
                   <ReactPlayer
                     playing
                     url={remoteStream}
-                    width="21%"
-                    height="100%"
-                    className={classes.smallPlayer}
+                    width="80%"
+                    height="80%"
                   />
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <div className={classes.chatWindow}>
-            <AppBar position="static">
-              <div className={classes.chatMenu}>
-                <span>LIVE CHAT</span>
-                <span>
-                  <IconButton color="inherit" onClick={onUserList}>
-                    <Person />
-                  </IconButton>
-                </span>
-              </div>
-            </AppBar>
-            {userListFlag ? (
-              <div className={classes.chatBox}>
-                <UserList userList={userList}></UserList>
-              </div>
-            ) : (
-              <div className={classes.chatBox}>
-                {chatList.map((chat, i) => {
-                  return chat.from === "server:entrance" ? (
-                    <div className={classes.server} key={i}>
-                      <span className={classes.entrance}>{chat.msg}</span>
-                      <span>님이 입장하셨습니다</span>
-                    </div>
-                  ) : (
-                    <div
-                      className={classes.flex}
-                      key={i}
-                      className={classes.messageWrapper}
+                ) : null}
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h3">
+                  {currentRoom ? currentRoom.roomName : null}
+                </Typography>
+                <Typography variant="h6">
+                  {currentRoom ? `by ${currentRoom.hostId}` : null}
+                  {user && currentRoom && user.name === currentRoom.hostId ? (
+                    <Button
+                      className={classes.deleteButton}
+                      variant="outlined"
+                      size="small"
+                      color="secondary"
+                      onClick={onDelete}
                     >
-                      <Chip label={chat.from} className={classes.chip} />
-                      {chat.msg}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            <div className={classes.messageBox} className={classes.button}>
-              <div>
-                <TextField
-                  id="standard-name"
-                  className={classes.textBox}
-                  placeholder="Send a chat"
-                  value={textValue}
-                  onChange={onChange}
-                  onKeyDown={onKeyHandler}
-                />
-              </div>
-              <div className={classes.button}>
-                <Button variant="contained" color="primary" onClick={onSubmit}>
-                  send
-                </Button>
-              </div>
+                      Delete Room
+                    </Button>
+                  ) : (
+                    <Button
+                      className={classes.deleteButton}
+                      variant="outlined"
+                      size="small"
+                      color="secondary"
+                      onClick={onExit}
+                    >
+                      Exit Room
+                    </Button>
+                  )}
+                </Typography>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+        <div className={classes.chatWindow}>
+          <AppBar position="static">
+            <div className={classes.chatMenu}>
+              <span>LIVE CHAT</span>
+              <span>
+                <IconButton color="inherit" onClick={onUserList}>
+                  <Person />
+                </IconButton>
+              </span>
+            </div>
+          </AppBar>
+          {userListFlag ? (
+            <div className={classes.chatBox}>
+              <UserList userList={userList}></UserList>
+            </div>
+          ) : (
+            <div className={classes.chatBox}>
+              {chatList.map((chat, i) => {
+                return chat.from === "server:entrance" ? (
+                  <div className={classes.server} key={i}>
+                    <span className={classes.entrance}>{chat.msg}</span>
+                    <span>님이 입장하셨습니다</span>
+                  </div>
+                ) : (
+                  <div
+                    className={classes.flex}
+                    key={i}
+                    className={classes.messageWrapper}
+                  >
+                    <Chip label={chat.from} className={classes.chip} />
+                    {chat.msg}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className={classes.messageBox} className={classes.button}>
+            <div>
+              <TextField
+                id="standard-name"
+                className={classes.textBox}
+                placeholder="Send a chat"
+                value={textValue}
+                onChange={onChange}
+                onKeyDown={onKeyHandler}
+              />
+            </div>
+            <div className={classes.button}>
+              <Button variant="contained" color="primary" onClick={onSubmit}>
+                send
+              </Button>
             </div>
           </div>
         </div>
-      </Paper>
+      </div>
     </div>
   );
 };
