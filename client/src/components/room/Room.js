@@ -2,10 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Fab from "@material-ui/core/Fab";
-import { AirplayOutlined, ExitToApp, Person } from "@material-ui/icons";
+import { AirplayOutlined, Person } from "@material-ui/icons";
 
 import AuthContext from "../../context/auth/authContext";
-import LobbyCotext from "../../context/lobby/lobbyContext";
 import RoomContext from "../../context/room/roomContext";
 import AlertContext from "../../context/alert/alertContext";
 import UserList from "./UserList";
@@ -138,6 +137,7 @@ const Room = ({ match, history }) => {
     }
 
     windowBackEvent();
+    // eslint-disable-next-line
   }, [user, roomId, localStream]);
 
   const videoRef = useRef(null);
@@ -212,7 +212,6 @@ const Room = ({ match, history }) => {
               <Grid item xs={12}>
                 {/* <Backspace fontSize="large" onClick={onLeave} /> */}
                 <Fab
-                  variant="outlined"
                   variant="extended"
                   size="medium"
                   color="primary"
@@ -223,7 +222,6 @@ const Room = ({ match, history }) => {
                   Get My CAM
                 </Fab>
                 <Fab
-                  variant="outlined"
                   variant="extended"
                   size="medium"
                   color="secondary"
@@ -312,6 +310,7 @@ const Room = ({ match, history }) => {
                   <div
                     className={classes.flex}
                     key={i}
+                    // eslint-disable-next-line
                     className={classes.messageWrapper}
                   >
                     <Chip label={chat.from} className={classes.chip} />
@@ -321,7 +320,7 @@ const Room = ({ match, history }) => {
               })}
             </div>
           )}
-          <div className={classes.messageBox} className={classes.button}>
+          <div className={classes.messageBox}>
             <div>
               <TextField
                 id="standard-name"

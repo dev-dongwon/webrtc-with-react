@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function UserList({ userList }) {
   const classes = useStyles();
   const roomContext = useContext(RoomContext);
-  const { mySocketId, privateMessage, localStream, makePeer } = roomContext;
+  const { mySocketId, localStream, makePeer } = roomContext;
 
   const offerVideoCall = e => {
     const targetSocketId = e.target.id;

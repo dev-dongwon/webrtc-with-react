@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
-  Divider,
   Modal,
   TextField,
   MenuItem,
@@ -78,6 +77,7 @@ const Lobby = props => {
 
   useEffect(() => {
     loadRooms();
+    // eslint-disable-next-line
   }, []);
 
   const { setAlert } = alertContext;

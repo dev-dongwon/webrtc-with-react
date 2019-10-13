@@ -30,8 +30,8 @@ export default (state, action) => {
       };
     }
     case UPDATE_ROOM:
-      const { msg, user } = action.payload;
-      const { username, socketId } = user;
+      const { user } = action.payload;
+      const { username } = user;
       return {
         ...state,
         userList: {

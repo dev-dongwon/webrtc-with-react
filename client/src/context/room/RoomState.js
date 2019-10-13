@@ -9,7 +9,6 @@ import RoomReducer from "./roomReducer";
 import AlertContext from "../../context/alert/alertContext";
 
 import {
-  LEAVE_ROOM,
   RECEIVE_CHAT,
   JOIN_ROOM,
   UPDATE_ROOM,
@@ -54,7 +53,7 @@ const RoomState = props => {
   // Init Peer
   const initPeer = (type, localStream) => {
     peer = new Peer({
-      initiator: type == "init" ? true : false,
+      initiator: type === "init" ? true : false,
       wrtc: wrtc,
       stream: localStream,
       trickle: false

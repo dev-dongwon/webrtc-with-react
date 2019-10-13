@@ -139,7 +139,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Search() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [state, setState] = React.useState({
     single: "",
     popper: ""

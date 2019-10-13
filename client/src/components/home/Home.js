@@ -1,24 +1,26 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Divider, Button, Link } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(2),
-    float: "right"
+    margin: theme.spacing(2)
   },
   typo: {
+    textAlign: "center",
     fontWeight: "900",
     fontSize: "50px",
     margin: theme.spacing(3)
   },
   subTtile: {
+    textAlign: "center",
     margin: theme.spacing(3),
     marginTop: theme.spacing(5),
     fontSize: "25px",
     fontWeight: "700"
   },
   content: {
+    textAlign: "center",
     margin: theme.spacing(3),
     fontSize: "15px",
     fontWeight: "500"
@@ -31,6 +33,7 @@ const Home = props => {
   return (
     <div>
       <Typography className={classes.typo}>{"Voloom Up Service"}</Typography>
+      <Divider></Divider>
       <div>
         <Typography className={classes.subTtile}>
           {"Volroom up 서비스가 뭔가요?"}
@@ -46,11 +49,11 @@ const Home = props => {
           }
         </Typography>
         <Typography className={classes.content}>
-          {
-            "향후 private message와 친구 맺기 기능을 추가할 예정입니다"
-          }
+          {"향후 private message와 친구 맺기 기능을 추가할 예정입니다"}
         </Typography>
       </div>
+      <Divider variant="middle"></Divider>
+
       <div>
         <Typography className={classes.subTtile}>
           {"어디에 이용할 수 있나요?"}
@@ -66,8 +69,13 @@ const Home = props => {
           }
         </Typography>
       </div>
+      <Divider variant="middle"></Divider>
+
       <div>
         <Typography className={classes.subTtile}>{"개발환경"}</Typography>
+        <Typography className={classes.content}>
+          {"OS : Linux Ubuntu 18.04"}
+        </Typography>
         <Typography className={classes.content}>
           {"BackEnd : node.js, Express.js"}
         </Typography>
@@ -77,6 +85,18 @@ const Home = props => {
         <Typography className={classes.content}>
           {"Database : MySQL, MongoDB, Redis"}
         </Typography>
+      </div>
+      <div className={classes.typo}>
+        <Link to="/lobby">
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+          >
+            서비스 구경하기
+          </Button>
+        </Link>
       </div>
     </div>
   );

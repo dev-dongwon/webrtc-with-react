@@ -29,8 +29,9 @@ export default function Navigation() {
   };
 
   useEffect(() => {
-  }, [value]);
     loadRoomsByType(value);
+    // eslint-disable-next-line
+  }, [value]);
 
   return (
     <BottomNavigation
