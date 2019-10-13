@@ -71,10 +71,12 @@ export default function SimpleList() {
         aria-label="main mailbox folders"
         className={classes.list}
       >
-        <ListItem button className={classes.item}>
-          <Home />
-          <ListItemText primary="Home" className={classes.text} />
-        </ListItem>
+        <Link to="/">
+          <ListItem button className={classes.item}>
+            <Home />
+            <ListItemText primary="Home" className={classes.text} />
+          </ListItem>
+        </Link>
         <Link to="/lobby" onClick={onPrivate}>
           <ListItem button className={classes.item}>
             <LibraryMusic />
