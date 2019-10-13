@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Divider, Button, Link } from "@material-ui/core";
+import { Typography, Divider, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -94,7 +95,7 @@ const Home = props => {
             size="large"
             className={classes.button}
           >
-            서비스 구경하기
+            서비스 이용하러 GO!
           </Button>
         </Link>
       </div>
