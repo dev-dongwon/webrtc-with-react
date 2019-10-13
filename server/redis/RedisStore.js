@@ -41,6 +41,29 @@ class RedisStore {
     return result;
   }
 
+  async getRoomsByType(type) {
+    let roomListKey;
+    switch (type) {
+      case "all":
+        roomListKey = await this.redisClient.keys("*");
+        break;
+      case "talk":
+        roomListKey = await this.redisClient.keys("talk:*");
+        break;
+      case "jam":
+        roomListKey = await this.redisClient.keys("jam:*");
+        break;
+    }
+
+    const result = [];
+    for (const key of roomListKey) {
+      const room = JSON.parse(await this.redisClient.get(key));
+      const { roomId, hostId, roomName, topic, privateFlag } = room;
+      result.push({ roomId, hostId, roomName, topic, privateFlag });
+    }
+    return result;
+  }
+
   async removeRoom(key) {
     const result = await this.redisClient.del(key);
     return result;

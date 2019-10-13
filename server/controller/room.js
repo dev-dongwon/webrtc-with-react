@@ -46,6 +46,17 @@ const controller = {
     } catch (error) {
       next(error);
     }
+  },
+
+  // 특정 type rooms 가져오기
+  getRoomsByType: async (req, res, next) => {
+    try {
+      const { type } = req.params;
+      const result = await redisStore.getRoomsByType(type);
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
