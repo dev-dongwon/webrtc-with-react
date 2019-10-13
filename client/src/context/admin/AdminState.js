@@ -1,31 +1,41 @@
 import React, { useReducer } from "react";
 import AdminContext from "./adminContext";
 import adminReducer from "./adminReducer";
+import axios from "axios";
 
-import { GET_LOGS } from "../types";
+import { GET_LOGS, GET_LOG_TYPES } from "../types";
 
 const AdminState = props => {
   const initialState = {
-    logData: []
+    logData: [],
+    type: "browser"
   };
 
   const [state, dispatch] = useReducer(adminReducer, initialState);
-  const { logData } = state;
+  const { logData, type } = state;
 
-  const loadData = () => {
+  const loadData = async () => {
     try {
       const res = await axios.get("/api/logs");
-      console.log(res);
       dispatch({ type: GET_LOGS, payload: res.data });
-    } catch (error) {
+    } catch (error) {}
+  };
 
-    }
-  }
+  const changeType = type => {
+    dispatch({ type: GET_LOG_TYPES, payload: type });
+  };
 
   return (
-    <AdminContext.Provider value={{
-      logData, loadData
-    }}>{props.children}</AdminContext.Provider>
+    <AdminContext.Provider
+      value={{
+        logData,
+        loadData,
+        changeType,
+        type
+      }}
+    >
+      {props.children}
+    </AdminContext.Provider>
   );
 };
 

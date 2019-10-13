@@ -32,3 +32,4 @@ export const CLEAR_ROOM_STATE = "CLEAR_ROOM_STATE";
 
 /* admin type */
 export const GET_LOGS = "GET_LOGS"
+export const GET_LOG_TYPES = "GET_LOG_TYPES"

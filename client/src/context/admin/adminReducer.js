@@ -1,4 +1,4 @@
-import { GET_LOGS } from "../types";
+import { GET_LOGS, GET_LOG_TYPES } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,12 @@ export default (state, action) => {
       return {
         ...state,
         logData: action.payload
+      };
+    }
+    case GET_LOG_TYPES: {
+      return {
+        ...state,
+        type: action.payload
       };
     }
     default:
