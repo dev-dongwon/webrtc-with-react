@@ -15,6 +15,15 @@ const LobbyState = props => {
   const [state, dispatch] = useReducer(LobbyReducer, initialState);
   const { rooms, room } = state;
 
+  // laod rooms by type
+  const loadRoomsByType = async type => {
+    try {
+      const res = await axios.get(`/api/rooms/${type}`);
+      const roomList = res.data;
+      dispatch({ type: LOAD_ROOMS, payload: roomList });
+    } catch (error) {}
+  };
+
   // load rooms
   const loadRooms = async () => {
     try {
@@ -41,7 +50,9 @@ const LobbyState = props => {
   };
 
   return (
-    <LobbyContext.Provider value={{ makeRoom, loadRooms, room, rooms }}>
+    <LobbyContext.Provider
+      value={{ makeRoom, loadRooms, loadRoomsByType, room, rooms }}
+    >
       {props.children}
     </LobbyContext.Provider>
   );

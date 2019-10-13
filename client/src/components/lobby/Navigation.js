@@ -1,10 +1,8 @@
-import React, { useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import RestoreIcon from "@material-ui/icons/Restore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LobbyContext from "../../context/lobby/lobbyContext";
 
 const useStyles = makeStyles({
   root: {
@@ -21,22 +19,33 @@ const useStyles = makeStyles({
 
 export default function Navigation() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState("all");
 
-  const onClick = e => {};
+  const lobbyContext = useContext(LobbyContext);
+  const { loadRoomsByType } = lobbyContext;
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+  }, [value]);
+    loadRoomsByType(value);
 
   return (
     <BottomNavigation
       value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
+      onChange={handleChange}
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="ALL" className={classes.btn} />
-      <BottomNavigationAction label="TALK" className={classes.btn} />
-      <BottomNavigationAction label="JAM" className={classes.btn} />
+      <BottomNavigationAction label="ALL" value="all" className={classes.btn} />
+      <BottomNavigationAction
+        label="TALK"
+        value="talk"
+        className={classes.btn}
+      />
+      <BottomNavigationAction label="JAM" value="jam" className={classes.btn} />
     </BottomNavigation>
   );
 }
