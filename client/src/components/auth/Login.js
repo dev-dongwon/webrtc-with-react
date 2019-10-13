@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
+import detect from "../../utils/userDetector";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -77,7 +78,10 @@ export default function SignIn(props) {
       setAlert("입력되지 않은 정보가 있습니다");
       return;
     }
-    login({ email, password });
+
+    const browser = detect.getBrowser().name;
+    const os = detect.getOS().name;
+    login({ email, password, os, browser });
   };
 
   return (
