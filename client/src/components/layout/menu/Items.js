@@ -3,18 +3,18 @@ import {
   List,
   ListItem,
   ListItemText,
-  Badge,
+  // Badge,
   makeStyles,
   Typography,
   Box
 } from "@material-ui/core";
 import {
-  Mail,
+  // Mail,
   Home,
   MusicNote,
-  Search,
+  // Search,
   LibraryMusic,
-  Group
+  // Group
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -83,7 +83,7 @@ export default function SimpleList() {
             <ListItemText primary="Play Room" className={classes.text} />
           </ListItem>
         </Link>
-        <ListItem button className={classes.item}>
+        {/* <ListItem button className={classes.item}>
           <Badge className={classes.margin} badgeContent={4} color="primary">
             <Group />
           </Badge>
@@ -100,7 +100,7 @@ export default function SimpleList() {
             <Search />
             <ListItemText primary="Search" className={classes.text} />
           </ListItem>
-        </Link>
+        </Link> */}
       </List>
     </div>
   );
