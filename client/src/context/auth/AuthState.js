@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import axios from "axios";
+import axios from "../../utils/axios-api";
 import AuthContext from "./authContext";
 import AuthReducer from "./authReducer";
 import setAuthToken from "../../utils/setAuthToken";

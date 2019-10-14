@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import axios from "axios";
+import axios from "../../utils/axios-api";
 
 import LobbyContext from "./lobbyContext";
 import LobbyReducer from "./lobbyReducer";

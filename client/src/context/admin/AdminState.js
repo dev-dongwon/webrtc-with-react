@@ -1,9 +1,8 @@
 import React, { useReducer } from "react";
 import AdminContext from "./adminContext";
 import adminReducer from "./adminReducer";
-import axios from "axios";
-
 import { GET_LOGS, GET_LOG_TYPES } from "../types";
+import axios from "../../utils/axios-api";
 
 const AdminState = props => {
   const initialState = {

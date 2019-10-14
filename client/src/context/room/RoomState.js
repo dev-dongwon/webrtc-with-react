@@ -1,6 +1,6 @@
 import React, { useReducer, useContext } from "react";
 import io from "socket.io-client";
-import axios from "axios";
+import axios from "../../utils/axios-api";
 import Peer from "simple-peer";
 import wrtc from "wrtc";
 
