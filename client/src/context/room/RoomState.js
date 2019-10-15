@@ -169,7 +169,7 @@ const RoomState = props => {
   // connect Room
   const connectRoom = (namespace, user, roomId, currentRoom) => {
     if (!socket) {
-      socket = io(`http://localhost:5000/${namespace}`, {
+      socket = io(`server-dev.ap-northeast-2.elasticbeanstalk.com/${namespace}`, {
         query: {
           username: user.name,
           roomId: roomId

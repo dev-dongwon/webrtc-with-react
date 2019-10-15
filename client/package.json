@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync ./build s3://volroom-deploy --profile=volroom",
-    "invalidate": "aws cloudfront create-invalidation --profile=volroom --distribution-id E29QO8KD5FG2ZU --paths / /static /index.html /asset-manifest.json /precache-manifest.2dde672b9f6b1b1373f21be6d4e71a94 /service-worker.js /load.gif /avatar.png /manifest.json /favicon.ico"
+    "invalidate": "aws cloudfront create-invalidation --profile=volroom --distribution-id E29QO8KD5FG2ZU --paths / /static /index.html /asset-manifest.json /precache-manifest.* /service-worker.js /load.gif /avatar.png /manifest.json /favicon.ico"
   },
   "eslintConfig": {
     "extends": "react-app"
